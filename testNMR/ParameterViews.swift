@@ -10,7 +10,7 @@ import SwiftUI
 struct ViewHeights {
     var picker: CGFloat = oniPad ? 36 : 24
     var slider: CGFloat = oniPad ? 40 : 30
-    var stepper: CGFloat = oniPad ? 28 : 20
+    var stepper: CGFloat = oniPad ? 40 : 30
 }
 
 var vH = ViewHeights()
@@ -18,7 +18,7 @@ var vH = ViewHeights()
 func sliderChanged (_ value: Float, _ index: Int) -> Void {
     switch index {
         case 2:
-            gData.frequency = Int(value)
+            gData.ncoFreq = Int(value)
         case 3:
             gData.pulseLength = Int(value)
       //case 4:
@@ -53,6 +53,7 @@ func sliderChanged (_ value: Float, _ index: Int) -> Void {
 
 struct SliderParameter: View {
     var prompt: String
+    var page: Int
     var index : Int
     @Binding var value: Float
     var minimum : Float
@@ -100,6 +101,7 @@ func pickerChanged(_ value: String, _ index: Int) -> Void
 
 struct PickerParameter: View {
     var prompt: String
+    var page: Int
     var index: Int
     @Binding var value: String
     var values: [String]
@@ -121,7 +123,9 @@ struct PickerParameter: View {
 
 struct IntegerParameter: View {
     @EnvironmentObject var vC: ViewControl
+
     var prompt: String
+    var page: Int
     var index: Int
     @Binding var value: String
     var minimum: Int
@@ -130,7 +134,7 @@ struct IntegerParameter: View {
     func storeValue() {
         switch index {
         case 2:
-            gData.frequency = Int(value) ?? 0
+            gData.ncoFreq = Int(value) ?? 0
         case 3:
             gData.pulseLength = Int(value) ?? 0
         case 4:
@@ -195,6 +199,7 @@ struct IntegerParameter: View {
                     }
                 })
         }
+        .frame(height: vH.stepper)
         .padding(.trailing, oniPad ? 50 : 5)
     }
 }
@@ -202,6 +207,7 @@ struct IntegerParameter: View {
 struct DoubleParameter: View {
     @EnvironmentObject var vC: ViewControl
     var prompt: String
+    var page: Int
     var index: Int
     @Binding var value: String
     var minimum: Double
@@ -210,7 +216,7 @@ struct DoubleParameter: View {
     func storeValue() {
         switch index {
         case 2:
-            gData.frequency = Int(value) ?? 0
+            gData.ncoFreq = Int(value) ?? 0
         case 3:
             gData.pulseLength = Int(value) ?? 0
       //case 4:
@@ -275,13 +281,14 @@ struct DoubleParameter: View {
                 })
         }
         .padding(.trailing, oniPad ? 50 : 5)
+        .frame(height: vH.stepper)
     }
 }
 
 func stepperChanged(_ value: Int, _ index: Int) -> Void {
     switch index {
     case 2:
-        gData.frequency = Int(value)
+        gData.ncoFreq = Int(value)
     case 3:
         gData.pulseLength = Int(value)
   //case 4:
@@ -317,6 +324,7 @@ func stepperChanged(_ value: Int, _ index: Int) -> Void {
 
 struct StepperParameter: View {
     var prompt: String
+    var page: Int
     var index: Int
     @Binding var value: Int
     var minimum : Int
@@ -336,7 +344,7 @@ struct StepperParameter: View {
 
 struct ActionButton: View {
     @EnvironmentObject var vC: ViewControl
-    
+    var page: Int
     func buttonText() -> String {
         switch vC.viewName {
         case .parameters:
@@ -386,6 +394,7 @@ struct ActionButton: View {
 
 struct ResultButton: View {
     @EnvironmentObject var vC: ViewControl
+    var page: Int
     
     func buttonText() -> String {
         switch vC.viewResult {
@@ -419,152 +428,168 @@ struct ResultButton: View {
 
 struct ActionButtons: View {
     @EnvironmentObject var vC: ViewControl
+    var page: Int
 
     var body: some View {
         if vC.viewName == .results {
             HStack {
                 Spacer()
-                ActionButton()
+                ActionButton(page: page)
                     .padding(20)
-                ResultButton()
+                ResultButton(page: page)
                 Spacer()
             }
         } else {
-            ActionButton()
+            ActionButton(page: page)
         }
     }
 }
 
 struct ExperimentView: View {
+    var page: Int
     @State var experiment: String = gData.experiment
     var body: some View {
-        PickerParameter(prompt: "\(allSettings.paramMap.prompts[0])", index: 0, value: $experiment, values: gData.experiments)
+        PickerParameter(prompt: "\(allSettings.paramMap.prompts[0])", page: page, index: 0, value: $experiment, values: gData.experiments)
             .frame(height: vH.picker)
     }
 }
 
 struct SampleView: View {
+    var page: Int
     @State var sample: String = gData.sample
     var body: some View {
-        PickerParameter(prompt: "\(allSettings.paramMap.prompts[1])", index: 1, value: $sample, values: gData.samples)
+        PickerParameter(prompt: "\(allSettings.paramMap.prompts[1])", page: page, index: 1, value: $sample, values: gData.samples)
             .frame(height: vH.picker)
     }
 }
 
 struct BigDeltaView: View {
+    var page: Int
     @State var bigDelta = "\(gData.bigDelta)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[6])", index: 6, value: $bigDelta, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[6])", page: page, index: 6, value: $bigDelta, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct GradientView: View {
+    var page: Int
     @State var gradient = "\(gData.bigDelta)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[7])", index: 7, value: $gradient, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[7])", page: page, index: 7, value: $gradient, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct RepeatTimeView: View {
+    var page: Int
     @State var rptTime = "\(gData.rptTime)"
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[8])", index: 8, value: $rptTime, minimum: 1, maximum: 20)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[8])", page: page, index: 8, value: $rptTime, minimum: 1, maximum: 20)
     }
 }
 
 struct NumberOfRunsView: View {
+    var page: Int
     @State var noOfRuns = gData.noOfRuns
     var body: some View {
-        StepperParameter(prompt: "\(allSettings.paramMap.prompts[17])", index: 17, value: $noOfRuns, minimum: 1, maximum: 100)
+        StepperParameter(prompt: "\(allSettings.paramMap.prompts[17])", page: page, index: 17, value: $noOfRuns, minimum: 1, maximum: 100)
     }
 }
 
 struct NumberOfExperimentsView: View {
+    var page: Int
     @State var noOfExperiments = gData.noOfExperiments
     var body: some View {
-        StepperParameter(prompt: "\(allSettings.paramMap.prompts[18])", index: 18, value: $noOfExperiments, minimum: 1, maximum: 100)
+        StepperParameter(prompt: "\(allSettings.paramMap.prompts[18])", page: page, index: 18, value: $noOfExperiments, minimum: 1, maximum: 100)
     }
 }
 
 struct NumberOfScansView: View {
+    var page: Int
     @State var noOfScans = gData.noOfScans
     var body: some View {
-        StepperParameter(prompt: "\(allSettings.paramMap.prompts[19])", index: 19, value: $noOfScans, minimum: 1, maximum: 100)
+        StepperParameter(prompt: "\(allSettings.paramMap.prompts[19])", page: page, index: 19, value: $noOfScans, minimum: 1, maximum: 100)
     }
 }
 
 struct TauTimeView: View {
+    var page: Int
     @State var tauTime = "\(gData.tauTime)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[9])", index: 9, value: $tauTime, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[9])", page: page, index: 9, value: $tauTime, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct TauIncView: View {
+    var page: Int
     @State var tauInc = "\(gData.tauInc)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[10])", index: 10, value: $tauInc, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[10])", page: page, index: 10, value: $tauInc, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct TauDView: View {
+    var page: Int
     @State var tauD = "\(gData.tauD)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[14])", index: 14, value: $tauD, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[14])", page: page, index: 14, value: $tauD, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct NoDataView: View {
+    var page: Int
     @State var noData = "\(gData.noData)"
 
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[11])", index: 11, value: $noData, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[11])", page: page, index: 11, value: $noData, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
 struct DelayInSecondsView: View {
+    var page: Int
     @State var delayInSeconds = "\(gData.delayInSeconds)"
 
     var body: some View {
-        DoubleParameter(prompt: "\(allSettings.paramMap.prompts[13])", index: 13, value: $delayInSeconds, minimum: 0, maximum: 0)
+        DoubleParameter(prompt: "\(allSettings.paramMap.prompts[13])", page: page, index: 13, value: $delayInSeconds, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
     }
 }
 
-
 struct FrequencyView: View {
     @EnvironmentObject var vC: ViewControl
-    @State var frequency = "\(viewControl.frequency)"
+    var page: Int
+    //@State var frequency = "\(viewControl.ncoFreq)"
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[2])", index: 2, value: $vC.frequency, minimum: 0, maximum: 0)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[2])", page: page, index: 2, value: $vC.ncoFreq, minimum: 0, maximum: 0)
             .frame(height: vH.slider)
-            .disabled(vC.disableFrequency)
+            .disabled(vC.disableNcoFreq)
     }
 }
 
 struct PulseLengthView: View {
+    var page: Int
     @State var pulseLength = "\(gData.pulseLength)"
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[3])", index: 3, value: $pulseLength, minimum: 0, maximum: 20000)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[3])", page: page, index: 3, value: $pulseLength, minimum: 0, maximum: 20000)
             .frame(height: vH.slider)
     }
 }
 
 struct LittleDeltaView: View {
+    var page: Int
     @State var littleDelta = "\(gData.littleDelta)"
     var body: some View {
-        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[5])", index: 5, value: $littleDelta, minimum: 0, maximum: 10000000)
+        IntegerParameter(prompt: "\(allSettings.paramMap.prompts[5])", page: page, index: 5, value: $littleDelta, minimum: 0, maximum: 10000000)
             .frame(height: vH.slider)
     }
 }

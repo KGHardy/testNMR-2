@@ -14,8 +14,8 @@
             filePath = "testNMR/testNMRApp.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "buildParameters()"
             landmarkType = "7">
             <Locations>
@@ -78,8 +78,8 @@
             filePath = "testNMR/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "testNMR/ParameterViews.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

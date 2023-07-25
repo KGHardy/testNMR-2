@@ -255,30 +255,30 @@ struct ParameterMap: Codable {
                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4],
                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
     
-    @ViewBuilder func getView(index: Int) -> some View {
+    @ViewBuilder func getView(page: Int, index: Int) -> some View {
         
         switch index {
-        case 0:  ExperimentView()
-        case 1:  SampleView()
-        case 2:  FrequencyView()
-        case 3:  PulseLengthView()
+        case 0:  ExperimentView(page: page)
+        case 1:  SampleView(page: page)
+        case 2:  FrequencyView(page: page)
+        case 3:  PulseLengthView(page: page)
         case 4:  Text("Parameter 4")
-        case 5:  LittleDeltaView()
-        case 6:  BigDeltaView()
-        case 7:  GradientView()
-        case 8:  RepeatTimeView()
-        case 9:  TauTimeView()
-        case 10: TauIncView()
-        case 11: NoDataView()
+        case 5:  LittleDeltaView(page: page)
+        case 6:  BigDeltaView(page: page)
+        case 7:  GradientView(page: page)
+        case 8:  RepeatTimeView(page: page)
+        case 9:  TauTimeView(page: page)
+        case 10: TauIncView(page: page)
+        case 11: NoDataView(page: page)
         case 12: Text("Parameter 12")
-        case 13: DelayInSecondsView()
-        case 14: TauDView()
+        case 13: DelayInSecondsView(page: page)
+        case 14: TauDView(page: page)
         case 15: Text("Parameter 15")
         case 16: Text("Parameter 16")
-        case 17: NumberOfRunsView()
-        case 18: NumberOfExperimentsView()
-        case 19: NumberOfScansView()
-        case 20: ActionButtons()
+        case 17: NumberOfRunsView(page: page)
+        case 18: NumberOfExperimentsView(page: page)
+        case 19: NumberOfScansView(page: page)
+        case 20: ActionButtons(page: page)
         default: EmptyView()
         }
     }
@@ -310,12 +310,20 @@ struct AllSettings: Codable {
     var scanner = ScannerSettings()
 }
 
+enum ViewTypes {
+    case notused
+    case slider
+    case stepper
+    case picker
+    case input
+}
+
 struct ParamPos {
     var pages : [Int] = [0,1,2]
     
     var pageSeq: [[Int]] = [[0,1,2,3,5,6,20],[7,8,9,10,11,13,14,20],[17,18,19,20]]
     
-    var focusedField: Int = 0
+    var paramViewType: [ViewTypes] = []
     
     mutating func build(paramMap: ParameterMap) -> Void {
         pageSeq.removeAll(keepingCapacity: true)
@@ -343,6 +351,12 @@ struct ParamPos {
             }
         }
         maxS = 0
+    }
+    
+    mutating func setParamViewType(index: Int, viewType: ViewTypes) -> Int {
+        while paramViewType.count <= index { paramViewType.append(.notused)}
+        paramViewType[index] = viewType
+        return 0
     }
 }
 

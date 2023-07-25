@@ -39,14 +39,41 @@ var yLabels = ["One", "Two", "Three", "Four", "Five"]
 
 struct TabPageView : View {
     @EnvironmentObject var vC: ViewControl
-
     var page: Int
+    
     var body: some View {
-        VStack {
+        VStack (spacing: 0){
             ForEach(paramPos.pageSeq[page],id:\.self) {v in
                 if allSettings.paramMap.prompts[v] != "" {
-                    allSettings.paramMap.getView(index: v)
+                    switch v {
+                        case 0:  ExperimentView(page: page)
+                        case 1:  SampleView(page: page)
+                        case 2:  FrequencyView(page: page)
+                        case 3:  PulseLengthView(page: page)
+                        case 4:  Text("Parameter 4")
+                        case 5:  LittleDeltaView(page: page)
+                        case 6:  BigDeltaView(page: page)
+                        case 7:  GradientView(page: page)
+                        case 8:  RepeatTimeView(page: page)
+                        case 9:  TauTimeView(page: page)
+                        case 10: TauIncView(page: page)
+                        case 11: NoDataView(page: page)
+                        case 12: Text("Parameter 12")
+                        case 13: DelayInSecondsView(page: page)
+                        case 14: TauDView(page: page)
+                        case 15: Text("Parameter 15")
+                        case 16: Text("Parameter 16")
+                        case 17: NumberOfRunsView(page: page)
+                        case 18: NumberOfExperimentsView(page: page)
+                        case 19: NumberOfScansView(page: page)
+                        case 20: ActionButtons(page: page)
+                        default: EmptyView()
+                    }
                 }
+//                if allSettings.paramMap.prompts[v] != "" {
+//                    allSettings.paramMap.getView(page: page, index: v)
+//                    Divider()
+//                }
             }
             Spacer()
         }
@@ -182,7 +209,7 @@ struct MenuView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Toggle("Disable Frequency Entry", isOn: $vC.disableFrequency)
+                Toggle("Disable Frequency Entry", isOn: $vC.disableNcoFreq)
                     .padding(.leading, 10)
                 Spacer()
             }

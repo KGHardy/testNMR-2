@@ -237,7 +237,7 @@ func doFRAnalysis() -> Bool {
         let y0 = yScale * x0 / xScale - yFit.max()!
         
         //print(y0)
-        gData.frequency = 16000000 - Int(y0)
+        gData.ncoFreq = 16000000 - Int(y0)
     }
 
     return true
@@ -254,8 +254,8 @@ func clearFRAnalysis() -> Bool {
 
 func showFRFit() -> Void {
     viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
-    viewControl.frequency = "\(gData.frequency)"
-    viewControl.disableFrequency = true
+    viewControl.ncoFreq = "\(gData.ncoFreq)"
+    viewControl.disableNcoFreq = true
 }
 
 func showFRFitEnd() -> Void {
@@ -266,7 +266,7 @@ func showFRFitEnd() -> Void {
 func doFindResonanceExperiment() -> Void {
     var nparams = gData.buildParameters()
     
-    nparams.ncoFreq = gData.frequency               // ensure frequency is set in parameters (it is to be varied)
+    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
     
     let definition = ExperimentDefinition()
     definition.runCount = gData.noOfRuns
@@ -288,7 +288,8 @@ func doFindResonanceExperiment() -> Void {
 func doFindPulseLengthExperiment() -> Void {
     var nparams = gData.buildParameters()
     
-    nparams.pulseLength = gData.pulseLength     // ensure pulse length is set ins parameters (it is to be varied)
+    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
     
     let definition = ExperimentDefinition()
     definition.runCount = gData.noOfRuns

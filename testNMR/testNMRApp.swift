@@ -51,6 +51,14 @@ import SwiftUI
  */
 
 struct GlobalData {
+/*
+ All redpitaya parameter fields are declared here.
+ 
+ Parameters that are updated outside the views are also declared in ViewControl.
+ Changing the value in ViewControl will cause the redrawing of the view showing its value.
+ This is so that the GlobalData value can be updated from a queue other than the main queue and the
+ ViewControl value updated when it is safe to redraw the views
+*/
     //index 0
     var experiments = [ "Find Resonance", "Find Pulse Length", "Free Induction Decay", "Spin-Lattice Relaxation","Spin-Spin Relaxation"]
     var experiment: String = "Find Resonance"
@@ -62,7 +70,7 @@ struct GlobalData {
     var samples = ["Solvent","Inorganic Dispersion","Organic Dispersion","Polymer Solution","Paramagnetic Solution"]
     
     // index 2
-    var frequency: Int = 16004000
+    var ncoFreq: Int = 16004000
     
     // index 3
     var pulseLength: Int = 0
@@ -130,8 +138,8 @@ struct GlobalData {
         if allSettings.scanner.hostport != dparams.portNo {
             nparams.portNo = allSettings.scanner.hostport
         }
-        if frequency != dparams.ncoFreq {
-            nparams.ncoFreq = frequency
+        if ncoFreq != dparams.ncoFreq {
+            nparams.ncoFreq = ncoFreq
         }
         if pulseLength != dparams.pulseLength {
             nparams.pulseLength = pulseLength
@@ -203,10 +211,13 @@ class ViewControl: ObservableObject {
     @Published var viewResult = ViewResults.raw
     @Published var viewMenu: Bool = false
     
+    @FocusState var tabFocus: Focusable?
+    
     @Published var viewTag: Int = 0
     
-    @Published var frequency : String = "\(gData.frequency)"
-    @Published var disableFrequency: Bool = false
+    /* see comments in GlobalData above */
+    @Published var ncoFreq : String = "\(gData.ncoFreq)"
+    @Published var disableNcoFreq: Bool = false
 
     func viewRefresh() -> Void {
         viewRefreshFlag = !viewRefreshFlag
