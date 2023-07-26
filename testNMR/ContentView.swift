@@ -34,41 +34,74 @@ struct GraphMargins {
 
 var graphMargins = GraphMargins(error: 0, top:20, bottom:40, left: 70, right: 30, ratio: oniPad ? 0.65 : 0.6, lineWidth: 2, radius: 2, xTicks: 5, yTicks: 5, tickLength: 20)
 
-var xLabels = ["One", "Two", "Three", "Four", "Five"]
-var yLabels = ["One", "Two", "Three", "Four", "Five"]
+var xLabels: [String] = []
+var yLabels: [String] = []
 
 struct TabPageView : View {
     @EnvironmentObject var vC: ViewControl
+    @FocusState.Binding var focus: Focusable?
     var page: Int
     
     var body: some View {
-        VStack (spacing: 0){
+        VStack (spacing: -10){
             ForEach(paramPos.pageSeq[page],id:\.self) {v in
                 if allSettings.paramMap.prompts[v] != "" {
+                    
+                        Group {
+                            if v == 0 { ExperimentView(page: page) }
+                            if v == 1 { SampleView(page: page) }
+                            if v == 2 { FrequencyView(focus: $focus, page: page) }
+                            if v == 3 { PulseLengthView(focus: $focus, page: page) }
+                            if v == 4 { Text("Parameter 4") }
+                            if v == 5 { LittleDeltaView(focus: $focus, page: page) }
+                            if v == 6 { BigDeltaView(focus: $focus, page: page) }
+                            if v == 7 { GradientView(focus: $focus, page: page) }
+                            
+                            if v == 8 { RepeatTimeView(focus: $focus, page: page) }
+                            if v == 9 { TauTimeView(focus: $focus, page: page) }
+                        }
+                        Group {
+                            if v == 10 { TauIncView(focus: $focus, page: page) }
+                            if v == 11 { NoDataView(focus: $focus, page: page) }
+                            if v == 12 { Text("Parameter 12") }
+                            if v == 13 { DelayInSecondsView(focus: $focus, page: page) }
+                            if v == 14 { TauDView(focus: $focus, page: page) }
+                            if v == 15 { Text("Parameter 15") }
+                            if v == 16 { UserTagView(focus: $focus, page: page)}
+                            if v == 17 { NumberOfRunsView(focus: $focus, page: page) }
+                            if v == 18 { NumberOfExperimentsView(focus: $focus, page: page) }
+                            if v == 19 { NumberOfScansView(focus: $focus, page: page) }
+                        }
+                        Group {
+                            if v == 20 { ActionButtons(page: page) }
+                        }
+                    
+                    /*
                     switch v {
                         case 0:  ExperimentView(page: page)
                         case 1:  SampleView(page: page)
-                        case 2:  FrequencyView(page: page)
-                        case 3:  PulseLengthView(page: page)
+                        case 2:  FrequencyView(focus: $focus, page: page)
+                        case 3:  PulseLengthView(focus: $focus, page: page)
                         case 4:  Text("Parameter 4")
-                        case 5:  LittleDeltaView(page: page)
-                        case 6:  BigDeltaView(page: page)
-                        case 7:  GradientView(page: page)
-                        case 8:  RepeatTimeView(page: page)
-                        case 9:  TauTimeView(page: page)
-                        case 10: TauIncView(page: page)
-                        case 11: NoDataView(page: page)
+                        case 5:  LittleDeltaView(focus: $focus, page: page)
+                        case 6:  BigDeltaView(focus: $focus, page: page)
+                        case 7:  GradientView(focus: $focus, page: page)
+                        case 8:  RepeatTimeView(focus: $focus, page: page)
+                        case 9:  TauTimeView(focus: $focus, page: page)
+                        case 10: TauIncView(focus: $focus, page: page)
+                        case 11: NoDataView(focus: $focus, page: page)
                         case 12: Text("Parameter 12")
-                        case 13: DelayInSecondsView(page: page)
-                        case 14: TauDView(page: page)
+                        case 13: DelayInSecondsView(focus: $focus, page: page)
+                        case 14: TauDView(focus: $focus, page: page)
                         case 15: Text("Parameter 15")
                         case 16: Text("Parameter 16")
-                        case 17: NumberOfRunsView(page: page)
-                        case 18: NumberOfExperimentsView(page: page)
-                        case 19: NumberOfScansView(page: page)
-                        case 20: ActionButtons(page: page)
+                        case 17: NumberOfRunsView(focus: $focus, page: page)
+                        case 18: NumberOfExperimentsView(focus: $focus, page: page)
+                        case 19: NumberOfScansView(focus: $focus, page: page)
+                        case 20: ActionButtons(focus: $focus, page: page)
                         default: EmptyView()
                     }
+                     */
                 }
 //                if allSettings.paramMap.prompts[v] != "" {
 //                    allSettings.paramMap.getView(page: page, index: v)
@@ -82,6 +115,7 @@ struct TabPageView : View {
 
 struct ContentView: View {
     @EnvironmentObject var vC: ViewControl
+    @FocusState var focus: Focusable?
 
     func frame1(size: CGSize) -> (w: CGFloat, h: CGFloat, x: CGFloat, y: CGFloat) {
         var h,w,x,y : CGFloat
@@ -127,7 +161,7 @@ struct ContentView: View {
                     } else {
                         TabView(selection: $vC.viewTag) {
                             ForEach(paramPos.pages, id:\.self) {page in
-                                TabPageView(page: page)
+                                TabPageView(focus: $focus, page: page)
                                     .tabItem{Image(systemName: "\(page + 1).circle")}
                                     .tag(page)
                             }
@@ -226,10 +260,8 @@ struct ResultView: View {
     var yRData: [Double]
     var xIData: [Double]
     var yIData: [Double]
-    //var xLabels: [String]
-    //var yLabels: [String]
     var gm: GraphMargins
-    
+
     func setLabels(_ minX: CGFloat, _ maxX: CGFloat, _ xScale: CGFloat, _ minY: CGFloat, _ maxY: CGFloat, _ yScale: CGFloat) -> Void {
         
         func fmt(_ max:CGFloat, _ x: CGFloat) -> String {
@@ -245,21 +277,23 @@ struct ResultView: View {
             return String(format: "%.4f",x)
         }
         
-        xLabels[0] = fmt(maxX, minX)
-        let vx = (maxX - minX) / CGFloat(xLabels.count - 1)
-        for ix in 1..<xLabels.count - 1 {
+        xLabels.removeAll()
+        xLabels.append(fmt(maxX, minX))
+        let vx = (maxX - minX) / CGFloat(gm.xTicks - 1)
+        for ix in 1..<gm.xTicks - 1 {
             let v = minX + vx * CGFloat(ix)
-            xLabels[ix] = fmt(maxX, v)
+            xLabels.append(fmt(maxX, v))
         }
-        xLabels[xLabels.count - 1] = fmt(maxX, maxX)
+        xLabels.append(fmt(maxX, maxX))
         
-        yLabels[0] = fmt(maxY, maxY)
-        let vy = (maxY - minY) / CGFloat(yLabels.count - 1)
-        for iy in 1..<yLabels.count - 1 {
+        yLabels.removeAll()
+        yLabels.append(fmt(maxY, maxY))
+        let vy = (maxY - minY) / CGFloat(gm.yTicks - 1)
+        for iy in 1..<gm.yTicks - 1 {
             let v = maxY - vy * CGFloat(iy)
-            yLabels[iy] = fmt(maxY, v)
+            yLabels.append(fmt(maxY, v))
         }
-        yLabels[yLabels.count - 1] = fmt(maxY, minY)
+        yLabels.append(fmt(maxY, minY))
     }
     
     func scaleValues(size: CGSize,ftOption: Int) -> (maxX: CGFloat, minX:CGFloat, maxY: CGFloat, minY: CGFloat, xScale: CGFloat, yScale:CGFloat) {
@@ -460,16 +494,16 @@ struct ResultView: View {
             }
             .stroke(Color.red, lineWidth: gm.lineWidth)
             
-            if xLabels.count > 0 {
-                ForEach (0..<xLabels.count, id: \.self) {ix in
+            if gm.xTicks > 0 {
+                ForEach (0..<gm.xTicks, id: \.self) {ix in
                     let step = (reader.size.width - gm.left - gm.right) / Double(gm.xTicks - 1)
                     let x = gm.left + step * Double(ix)
                     Text(xLabels[ix])
                         .position(x: x, y: reader.size.height - gm.bottom / 2)
                 }
             }
-            if yLabels.count > 0 {
-                ForEach (0..<yLabels.count, id: \.self) {iy in
+            if gm.yTicks > 0 {
+                ForEach (0..<gm.yTicks, id: \.self) {iy in
                     let step = (reader.size.height - gm.top - gm.bottom) / Double(gm.yTicks - 1)
                     let y = gm.top + step * Double(iy)
                     Text(yLabels[iy])

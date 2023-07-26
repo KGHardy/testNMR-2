@@ -127,7 +127,7 @@ enum ParamView {
     case picker
     case stepper
     case slider
-    case text
+    case input
 }
 /*
 struct Param {
@@ -243,7 +243,7 @@ struct ParameterMap: Codable {
                    "Delay In Seconds",          // 13
                    "Tau D",                     // 14
                    "",                          // 15 Prog Sat Delay
-                   "",                          // 16 User Tag
+                   "User Tag",                  // 16 User Tag
                    "No of Runs",                // 17
                    "No of Exeriments",          // 18
                    "No of Scans",               // 19
@@ -251,10 +251,10 @@ struct ParameterMap: Codable {
     ]
     
     var page : [[Int]] = [[1,2,3,0,4,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,7],
-                          [0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,0,0,0,0,0,9],
+                          [0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,0,9,0,0,0,10],
                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4],
                           [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-    
+/*
     @ViewBuilder func getView(page: Int, index: Int) -> some View {
         
         switch index {
@@ -282,7 +282,7 @@ struct ParameterMap: Codable {
         default: EmptyView()
         }
     }
-    
+*/
     func nextFocus(index: [Int]) -> Int {
         var ix0 = index[0]
         var ix1 = index[1] + 1
@@ -316,14 +316,35 @@ enum ViewTypes {
     case stepper
     case picker
     case input
+    case button
 }
 
 struct ParamPos {
     var pages : [Int] = [0,1,2]
     
-    var pageSeq: [[Int]] = [[0,1,2,3,5,6,20],[7,8,9,10,11,13,14,20],[17,18,19,20]]
+    var pageSeq: [[Int]] = [[0,1,2,3,5,6,20],[7,8,9,10,11,13,14,16,20],[17,18,19,20]]
     
-    var paramViewType: [ViewTypes] = []
+        var paramViewType: [ViewTypes] = [.picker,      //  0
+                                          .picker,      //  1
+                                          .input,       //  2
+                                          .input,       //  3
+                                          .notused,     //  4
+                                          .input,       //  5
+                                          .input,       //  6
+                                          .input,       //  7
+                                          .input,       //  8
+                                          .input,       //  9
+                                          .input,       // 10
+                                          .input,       // 11
+                                          .notused,     // 12
+                                          .input,       // 13
+                                          .input,       // 14
+                                          .notused,     // 15
+                                          .input,       // 16
+                                          .stepper,     // 17
+                                          .stepper,     // 18
+                                          .stepper,     // 19
+                                          .button]      // 20
     
     mutating func build(paramMap: ParameterMap) -> Void {
         pageSeq.removeAll(keepingCapacity: true)
@@ -357,6 +378,30 @@ struct ParamPos {
         while paramViewType.count <= index { paramViewType.append(.notused)}
         paramViewType[index] = viewType
         return 0
+    }
+    
+    func nextFocus(page: Int, index: Int) -> Int {
+        if page >= pages.count { return nextFocus(page: 0, index: -1) }
+        var pos = 0
+        if index >= 0 {
+            while true {                                // find index position in pageSeq[page]
+                if pageSeq[page][pos] == index { break }
+                pos += 1
+                if pos >= pageSeq[page].count { return -1 }
+            }
+            pos += 1
+        }
+        while pos < pageSeq[page].count {               // find next input parameter
+            if paramViewType[pageSeq[page][pos]] == .input {
+                return page * 100 + pageSeq[page][pos]
+            }
+            pos += 1
+        }
+        if page + 1 < pages.count {                     // try next tab page
+            viewControl.viewTag = page + 1
+            return nextFocus(page: page + 1, index: -1)
+        }
+        return -1
     }
 }
 
@@ -418,34 +463,36 @@ struct SettingsPP: View {
         //let fontSize : CGFloat  = oniPad ? 24 : 16
         NavigationView {
             GeometryReader {reader in
-                VStack {
                     //List {
                     //Group() {
-                        HStack {
-                            Text("Parameter Name")
-                                .padding(.leading, 10)
-                                .frame(width: reader.size.width * 0.58, alignment: .leading)
-                                .onTapGesture {
-                                    focusField = Focusable.none
-                                    redraw.toggle()
-                                }
-                            Spacer()
-                            Text(oniPad ? "P1 seq" : "P1")
-                                .frame(width: reader.size.width * 0.09, alignment: .leading)
-                                .font(.system(size: oniPad ? 17 : 15))
-                            Text(oniPad ? "P2 seq" : "P2")
-                                .frame(width: reader.size.width * 0.09, alignment: .leading)
-                                .font(.system(size: oniPad ? 17 : 15))
-                            Text(oniPad ? "P3 seq" : "P3")
-                                .frame(width: reader.size.width * 0.09, alignment: .leading)
-                                .font(.system(size: oniPad ? 17 : 15))
-                            Text(oniPad ? "P4 seq" : "P4")
-                                .frame(width: reader.size.width * 0.09, alignment: .leading)
-                                .font(.system(size: oniPad ? 17 : 15))
-                        }
-                        
+                VStack(spacing: -5) {
                     ForEach (0..<allSettings.paramMap.prompts.count, id: \.self) { index in
                             if allSettings.paramMap.prompts[index] != "" {
+                                if index == 0 {
+                                    HStack {
+                                        Text("Parameter Name")
+                                            .padding(.leading, 10)
+                                            .frame(width: reader.size.width * 0.58, height: vH.stepper, alignment: .leading)
+                                            .onTapGesture {
+                                                focusField = Focusable.none
+                                                redraw.toggle()
+                                            }
+                                        Spacer()
+                                        Text(oniPad ? "P1 seq" : "P1")
+                                            .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
+                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        Text(oniPad ? "P2 seq" : "P2")
+                                            .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
+                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        Text(oniPad ? "P3 seq" : "P3")
+                                            .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
+                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        Text(oniPad ? "P4 seq" : "P4")
+                                            .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
+                                            //.font(.system(size: oniPad ? 17 : 15))
+                                    }
+                                    .frame(height: vH.stepper)
+                                }
                                 ParameterPosition(focusField: $focusField,
                                                   page0: "\(allSettings.paramMap.page[0][index])",
                                                   page1: "\(allSettings.paramMap.page[1][index])",
