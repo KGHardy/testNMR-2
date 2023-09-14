@@ -57,13 +57,14 @@ func sizeArray<T>(array: inout [T], size:Int) {
         array.removeLast()
     }
 }
-
+/*
 func maxd( _ x:([Double])) ->(Double,Int){
     let maxvalue = x.sorted(){$0 > $1}
     let index = x.index(of:maxvalue[0])! //force unwrapping
     //print(index)
     return(maxvalue[0],index)
 }
+ */
 func myPrinter(_ string:Int){
     //print("My String ",String(string))
 }

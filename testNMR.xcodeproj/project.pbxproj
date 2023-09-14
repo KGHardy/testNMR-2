@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F545E282AB338BD0086C4BB /* Levenberg Marquardt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F545E272AB338BD0086C4BB /* Levenberg Marquardt.swift */; };
 		1F87EADC2A0A5D8D006E603A /* testNMRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F87EADB2A0A5D8D006E603A /* testNMRApp.swift */; };
 		1F87EADE2A0A5D8D006E603A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F87EADD2A0A5D8D006E603A /* ContentView.swift */; };
 		1F87EAE02A0A5D8E006E603A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F87EADF2A0A5D8E006E603A /* Assets.xcassets */; };
@@ -17,7 +18,6 @@
 		1FFA24432A35D11A0014C88F /* NWCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24412A35D11A0014C88F /* NWCode.swift */; };
 		1FFA24442A35D11A0014C88F /* wpServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24422A35D11A0014C88F /* wpServer.swift */; };
 		1FFA244D2A39CD260014C88F /* CFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24492A39CD260014C88F /* CFFT.swift */; };
-		1FFA244E2A39CD260014C88F /* Levenberg Marquardt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA244A2A39CD260014C88F /* Levenberg Marquardt.swift */; };
 		1FFA244F2A39CD260014C88F /* Lorenztian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA244B2A39CD260014C88F /* Lorenztian.swift */; };
 		1FFA24502A39CD260014C88F /* Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA244C2A39CD260014C88F /* Extras.swift */; };
 		1FFA24522A39CEE10014C88F /* dataAqusiition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24512A39CEE10014C88F /* dataAqusiition.swift */; };
@@ -25,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F545E272AB338BD0086C4BB /* Levenberg Marquardt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Levenberg Marquardt.swift"; sourceTree = "<group>"; };
 		1F87EAD82A0A5D8D006E603A /* testNMR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testNMR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F87EADB2A0A5D8D006E603A /* testNMRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testNMRApp.swift; sourceTree = "<group>"; };
 		1F87EADD2A0A5D8D006E603A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,7 +38,6 @@
 		1FFA24412A35D11A0014C88F /* NWCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NWCode.swift; sourceTree = "<group>"; };
 		1FFA24422A35D11A0014C88F /* wpServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = wpServer.swift; sourceTree = "<group>"; };
 		1FFA24492A39CD260014C88F /* CFFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFFT.swift; sourceTree = "<group>"; };
-		1FFA244A2A39CD260014C88F /* Levenberg Marquardt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Levenberg Marquardt.swift"; sourceTree = "<group>"; };
 		1FFA244B2A39CD260014C88F /* Lorenztian.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorenztian.swift; sourceTree = "<group>"; };
 		1FFA244C2A39CD260014C88F /* Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extras.swift; sourceTree = "<group>"; };
 		1FFA24512A39CEE10014C88F /* dataAqusiition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataAqusiition.swift; sourceTree = "<group>"; };
@@ -87,8 +87,8 @@
 				1FFA243F2A35CCA80014C88F /* Experiment.swift */,
 				1FFA24492A39CD260014C88F /* CFFT.swift */,
 				1FFA244C2A39CD260014C88F /* Extras.swift */,
-				1FFA244A2A39CD260014C88F /* Levenberg Marquardt.swift */,
 				1FFA244B2A39CD260014C88F /* Lorenztian.swift */,
+				1F545E272AB338BD0086C4BB /* Levenberg Marquardt.swift */,
 				1FFA24532A3C987C0014C88F /* tempfromc.swift */,
 			);
 			path = testNMR;
@@ -173,11 +173,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FFA244D2A39CD260014C88F /* CFFT.swift in Sources */,
-				1FFA244E2A39CD260014C88F /* Levenberg Marquardt.swift in Sources */,
 				1FFA24402A35CCA80014C88F /* Experiment.swift in Sources */,
 				1F87EADE2A0A5D8D006E603A /* ContentView.swift in Sources */,
 				1FFA24542A3C987C0014C88F /* tempfromc.swift in Sources */,
 				1FDAF7292A15083A00AE2BA0 /* ParameterViews.swift in Sources */,
+				1F545E282AB338BD0086C4BB /* Levenberg Marquardt.swift in Sources */,
 				1FFA24502A39CD260014C88F /* Extras.swift in Sources */,
 				1FFA244F2A39CD260014C88F /* Lorenztian.swift in Sources */,
 				1FFA24522A39CEE10014C88F /* dataAqusiition.swift in Sources */,

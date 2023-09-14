@@ -13,8 +13,7 @@ import Foundation
 //
 //  Created by Terence Cosgrove on 20/09/2022.
 //
-// NOTES ON USE 12-Sep-2023
-// Call with
+
 import Foundation
 import Accelerate
 
@@ -102,8 +101,7 @@ func findSolution(_ newJtJ:[[Double]],_ Jerror:[Double]) -> [Double]
     return (J)
 }
 //  Levenberg Routines https://github.com/jjhartmann/Levenberg-Marquardt-Algorithm
-
-func line_error(_ selectedExperiment:String,_ params:[Double],_ args:[[Double]])-> ([Double])
+func line_error(_ params:[Double],_ args:[[Double]])-> ([Double])
 {
     /*
      Line Error, calculates the error for the line equations y = mx + b
@@ -119,9 +117,7 @@ func line_error(_ selectedExperiment:String,_ params:[Double],_ args:[[Double]])
     let y:[Double] = args[1]
     let dataLength = x.count
     var ystar:[Double] = Array(repeating: Double(0.0), count: dataLength)
-    // choose function to be fittted
-    ystar = chooseEperiment(selectedExperiment, params,x)
-    
+    ystar = lorentzian(params,x)
     for i in 0..<dataLength{
     ystar[i]=y[i]-ystar[i]
 }
@@ -137,9 +133,8 @@ func line_error(_ selectedExperiment:String,_ params:[Double],_ args:[[Double]])
  :param error_function: function used to determine error based on params and observations
  :return: The jacobian for the error_function
  def numerical_differentiation(params, args, error_function):
- Call selectedExperiment anddefin functions
  */
-func numerical_differentiation(_ selectedExperiment:String,_ params:[Double],_ args:[[Double]]) -> ([[Double]])
+func numerical_differentiation(_ params:[Double],_ args:[[Double]]) -> ([[Double]])
 {
     let delta_factor:Double = 1.0e-4
     let min_delta:Double = 1.0e-4
@@ -151,7 +146,7 @@ func numerical_differentiation(_ selectedExperiment:String,_ params:[Double],_ a
     let rows = params.count
     let cols = x.count
     //Compute error
-    let y_0:[Double] = line_error(selectedExperiment,params, args)
+    let y_0:[Double] = line_error(params, args)
     // Jacobian [[100][100][100]] count(1) No of observationscount(2) is number of variables
     //Empty Jacobian define
     var J:[[Double]] = Array(repeating: Array(repeating: (0.0), count: cols), count: rows)
@@ -165,7 +160,7 @@ func numerical_differentiation(_ selectedExperiment:String,_ params:[Double],_ a
         }
         params_star[i] += delta
         // Call line_error(_ params:[Double],_ args:[Double])-
-        let y_1:[Double] = line_error(selectedExperiment,params_star, args)
+        let y_1:[Double] = line_error(params_star, args)
         // Update Jacobian with gradient
         for j in 0..<dataLength{
             let diff:Double = y_0[j] - y_1[j]
@@ -184,7 +179,7 @@ func numerical_differentiation(_ selectedExperiment:String,_ params:[Double],_ a
  F = @(x,xdata)(x(1)^2./(x(2)^2+4*((x(3)-xdata).^2)).^0.5);
  a*b**2/(b**2+(x-c)**2)
  */
-func line_differentiation(_ selectedExperiment:String, _ params:[Double],_ args:[[Double]])-> ([[Double]])
+func line_differentiation(_ params:[Double],_ args:[[Double]])-> ([[Double]])
 {
     let a = params[0]
     let b = params[1]
@@ -203,13 +198,12 @@ func line_differentiation(_ selectedExperiment:String, _ params:[Double],_ args:
     }
     return J
 }
-func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Double],[Double])
+func lm(_ seed_params:[Double],_ args:[[Double]]) -> ([Double],[Double])
 {     //(Double,[Double],String)
     //  error_function, jacobian_function=numerical_differentiation,
     //  llambda=1e-3, lambda_multiplier=10, kmax=50, eps=1e-3, verbose=True):
     /*""" Levenberg-Marquardt Implementaiton
      //See: (https://en.wikipedia.org/wiki/Levenberg%E2%80%93Marquardt_algorithm)
-     :selected experiemnt choose fitting function and derivatives
      :param  seed_params: initial starting guess for the params we are trying to find
      :param  args: the inputs (x) and observations (y)
      :param  error_function: describes how error is calculated for the model
@@ -222,10 +216,6 @@ func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Doub
      :return:  rmserror, params
      """
      */
-    // Get Guesses from Data
-    var seed_params:[Double] = myGuesses(selectedExperiment, sData, xData)
-    // Rearraing Data
-    let args:[[Double]] = [xData,sData]
     var llambda:Double = 1e-3
     let lambda_multiplier:Double = 10
     let  kmax:Int = 50
@@ -241,7 +231,7 @@ func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Doub
         k += 1
         //print("Iteration ",k)
         // Retrieve jacobian of function gradients with respect to the params
-        let J:[[Double]] = numerical_differentiation(selectedExperiment,params, args)
+        let J:[[Double]] = numerical_differentiation(params, args)
         let JtJ:[[Double]] = inner(J, J)
         let Count = params.count
         // I * diag(JtJ)
@@ -254,7 +244,7 @@ func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Doub
         //var A:[[Double]] = eye(params.count) * diag(JtJ)
         
         //== Jt * error
-        let error:[Double] = line_error(selectedExperiment,params, args)
+        let error:[Double] = line_error(params, args)
         let Jerror:[Double] = innerx(J, error)
         let rmserror:Double = norm(error)
         
@@ -280,7 +270,7 @@ func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Doub
             //return -1
             //Update params and calculate new error
             let params_star :[Double] = vadd(params,delta)
-            let error_star :[Double] = line_error(selectedExperiment,params_star, args)
+            let error_star :[Double] = line_error(params_star, args)
             rmserror_star = norm(error_star)
             
             if rmserror_star < rmserror{
@@ -448,84 +438,3 @@ func multiply(_ a: [Double], _ b: [Double]) -> [Double] {
 }
    
 
-func myGuesses(_ experiment:String,_ sOutput:[Double],_ xLimited:[Double])
--> ([Double])
-{
-var seeds:[Double] = Array(repeating: Double(0.0), count: 3)
-let maxresults = maxd(sOutput)
-let maxX = maxd(xLimited)
-    switch experiment{
-    case("Spectrum"):
-        seeds = [maxresults.0, 1000.0, xLimited[maxresults.1]]
-    case("Spin-Spin Relaxation"):
-        seeds = [maxresults.0, maxX.0/5, 0.1]
-    case("Spin-Lattice Relaxation"):
-        seeds =  [maxresults.0, maxX.0/5, 0.1]
-  //F=@(x,xdata)x(1).*exp(-xdata/x(3)).*abs(sin((pi*xdata)/(2*x(2))))+x(4);
-       // a*exp(-x[i]/b)*abs(sin(3.1416*x[i]/(2*c)))
-    case("Find Pulse Length"):
-        seeds =  [maxresults.0, maxX.0,xLimited[maxresults.1]]
-    case("Find Resonance"):
-        seeds =  [maxresults.0,5000.0,0.0]
-    default:
-        seeds =  [maxresults.0, 4.40014002e+03, xLimited[maxresults.1]]
-    }
-return seeds
-    
-}
-func chooseEperiment(_ experiment:String,_ params:[Double],_ x:[Double])->[Double]{
-    let a:Double=params[0]
-    let b:Double=params[1]
-    let c:Double=params[2]
-    let dataLength=x.count
-    var y:[Double] = Array(repeating: (0.0), count: dataLength)
-    switch experiment{
-    case("Spectrum"):
-        // Calculate Lorentzian Line a hieught b width c offset
-        for i in 0..<dataLength{
-            y[i] = a*pow(b,2.0)/(pow((x[i]-c),2)+pow(b,2))+a*x[i]/(pow((x[i]-c),2)+pow(b,2))
-            y[i] = pow(y[i],0.5)
-        }
-    case("Spin-Spin Relaxation"):
-        // Calculate exponetial   a height b tc c offset
-        for i in 0..<dataLength{
-            y[i] = a*exp(-x[i]/b)+c
-        }
-    case("Spin-Lattice Relaxation"):
-        // Calculate exponetial   a height b tc c offset
-        for i in 0..<dataLength{
-            y[i] = a*(1-2*exp(-x[i]/b))+c
-        }
-        
-    case("Find Resonance"):
-        // Calculate frequency offsey
-        for i in 0..<dataLength{
-            y[i] = a*x[i] + b + c
-        }
-    case("Find Pulse Length"):
-        for i in 0..<dataLength{
-            y[i] = a*exp(-x[i]/b)*abs(sin(3.1416*x[i]/(2*c)))
-        }
-        //Default
-    default:
-        y = (0..<dataLength).map {Double($0)}
-        // end of switch
-    }
-  return y
-}
-                      
-func maxd( _ x:([Double])) ->(Double,Int){
-    let maxvalue = x.sorted(){$0 > $1}
-    let index = x.firstIndex(of:maxvalue[0])! //force unwrapping
-    //print(index)
-    return(maxvalue[0],index)
-}
-
-func rescaleX(_ nFit:Int,_ xData:[Double]) ->[Double]
-{
-    let xMax = xData.max()!
-    let xMin = xData.min()!
-    let fitRangeIncement = (xMax-xMin)/Double(nFit)
-    let xFitArray:[Double] = (0..<nFit).map{Double($0)*fitRangeIncement+xMin}
-    return(xFitArray)
-}

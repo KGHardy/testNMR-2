@@ -77,7 +77,7 @@ func complexFFT(_ complexReals:[Double], _ complexImaginaries:[Double])-> (Array
     //print(maxresults)
     let seeds:[Double] = [maxresults.0, 4.40014002e+03, xLimited[maxresults.1]]
     let args:[[Double]] = [xLimited,sOutput]
-    let resultFit:([Double],[Double]) = lm(seeds,args)
+    let resultFit:([Double],[Double]) = lm("Find Pulse Length",xLimited, sOutput)
     let scaleHeight = resultFit.0[0]
     let maxFrequency = resultFit.0[2]
     let width = resultFit.0[1]
