@@ -71,13 +71,13 @@ func complexFFT(_ complexReals:[Double], _ complexImaginaries:[Double])-> (Array
     //sOutput[0] = 0.0
 
     
-    // No do a Levenberg fit toaq Lorentzian
+    // No do a Levenberg fit to a Lorentzian
     // get Guesses
     let maxresults = maxd(sOutput)
     //print(maxresults)
     let seeds:[Double] = [maxresults.0, 4.40014002e+03, xLimited[maxresults.1]]
-    let args:[[Double]] = [xLimited,sOutput]
-    let resultFit:([Double],[Double]) = lm("Find Pulse Length",xLimited, sOutput)
+    //let args:[[Double]] = [xLimited,sOutput]
+    let resultFit:([Double],[Double]) = lm("Specturm",xLimited, sOutput)
     let scaleHeight = resultFit.0[0]
     let maxFrequency = resultFit.0[2]
     let width = resultFit.0[1]
@@ -86,9 +86,10 @@ func complexFFT(_ complexReals:[Double], _ complexImaginaries:[Double])-> (Array
     let widthError = resultFit.1[1]
     //print("SEEDS",seeds)
     //print("Results",resultFit.0)
-    // make a fit using standard xrange
+    // make a fit using standard xrange for getting Spectrum parameters
     let xFit:[Double] = xLimited //Array(stride(from:minx, through: maxx, by: 2))
-    let yFit:[Double] = lorentzian(resultFit.0,xFit)
+    let yFit = chooseEperiment("Spectrum", resultFit.0,xFit)
+    //let yFit:[Double] = lorentzian(resultFit.0,xFit)
     // scale both fit and data  FIX ME
     /*
 
