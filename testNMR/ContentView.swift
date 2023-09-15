@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/*
 extension String
 {
    func sizeUsingFont(usingFont font: UIFont) -> CGSize
@@ -17,7 +17,7 @@ extension String
 }
 // calculate render width and height of text using provided font (without actually rendering)
 //let sizeOfText: CGSize = "test string".sizeUsingFont(usingFont: UIFont.systemFont(ofSize: 40, weight: UIFont.Weight.bold))
-
+*/
 struct GraphMargins {
     var error: CGFloat
     var top: CGFloat
