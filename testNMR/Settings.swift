@@ -64,7 +64,7 @@ struct EntryField : View {
 }
 
 struct ScannerSettings: Codable {
-    var hostname: String = "10.42.0.1"
+    var hostname: String = "192.168.1.29" //UK"10.42.0.1"
     var hostport: Int = 1001
 }
 /*

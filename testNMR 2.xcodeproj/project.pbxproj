@@ -137,7 +137,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1F87EAD32A0A5D8D006E603A /* Build configuration list for PBXProject "testNMR" */;
+			buildConfigurationList = 1F87EAD32A0A5D8D006E603A /* Build configuration list for PBXProject "testNMR 2" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -313,7 +313,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"testNMR/Preview Content\"";
-				DEVELOPMENT_TEAM = 8SXS96S8J2;
+				DEVELOPMENT_TEAM = F3L93FVB85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = testNMR/Info.plist;
@@ -328,7 +328,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kenhardy.testNMR;
+				PRODUCT_BUNDLE_IDENTIFIER = "TC-vs1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -344,7 +344,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"testNMR/Preview Content\"";
-				DEVELOPMENT_TEAM = 8SXS96S8J2;
+				DEVELOPMENT_TEAM = F3L93FVB85;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = testNMR/Info.plist;
@@ -359,7 +359,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kenhardy.testNMR;
+				PRODUCT_BUNDLE_IDENTIFIER = "TC-vs1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -370,7 +370,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1F87EAD32A0A5D8D006E603A /* Build configuration list for PBXProject "testNMR" */ = {
+		1F87EAD32A0A5D8D006E603A /* Build configuration list for PBXProject "testNMR 2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1F87EAE42A0A5D8E006E603A /* Debug */,
