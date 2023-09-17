@@ -456,7 +456,7 @@ let maxresults = maxd(sOutput)
 let maxX = maxd(xLimited)
     switch experiment{
     case("Spectrum"):
-        seeds = [maxresults.0, 1000.0, xLimited[maxresults.1]]
+        seeds = [maxresults.0, 2000.0, xLimited[maxresults.1]]
     case("Spin-Spin Relaxation"):
         seeds = [maxresults.0, maxX.0/5, 0.1]
     case("Spin-Lattice Relaxation"):
