@@ -4,3 +4,6 @@ testNMR/CFFTxx.swift
 testNMR/Levenberg Marquardtxxx.swift
 testNMR/Levenberg Marquardtxx.swift
 testNMR/Levenberg Marquardtxx.swift
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
