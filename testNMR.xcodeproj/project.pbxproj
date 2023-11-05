@@ -22,6 +22,7 @@
 		1FFA24502A39CD260014C88F /* Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA244C2A39CD260014C88F /* Extras.swift */; };
 		1FFA24522A39CEE10014C88F /* dataAqusiition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24512A39CEE10014C88F /* dataAqusiition.swift */; };
 		1FFA24542A3C987C0014C88F /* tempfromc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA24532A3C987C0014C88F /* tempfromc.swift */; };
+		DED291452AF7BBF700F68171 /* filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED291442AF7BBF700F68171 /* filter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		1FFA244C2A39CD260014C88F /* Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extras.swift; sourceTree = "<group>"; };
 		1FFA24512A39CEE10014C88F /* dataAqusiition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataAqusiition.swift; sourceTree = "<group>"; };
 		1FFA24532A3C987C0014C88F /* tempfromc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tempfromc.swift; sourceTree = "<group>"; };
+		DED291442AF7BBF700F68171 /* filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 		1F87EADA2A0A5D8D006E603A /* testNMR */ = {
 			isa = PBXGroup;
 			children = (
+				DED291442AF7BBF700F68171 /* filter.swift */,
 				1F553D8C2AB462F5007DA67A /* testNMR.entitlements */,
 				1FFA24512A39CEE10014C88F /* dataAqusiition.swift */,
 				1FDAF72C2A1E31E700AE2BA0 /* Info.plist */,
@@ -175,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FFA244D2A39CD260014C88F /* CFFT.swift in Sources */,
+				DED291452AF7BBF700F68171 /* filter.swift in Sources */,
 				1FFA24402A35CCA80014C88F /* Experiment.swift in Sources */,
 				1F87EADE2A0A5D8D006E603A /* ContentView.swift in Sources */,
 				1FFA24542A3C987C0014C88F /* tempfromc.swift in Sources */,
