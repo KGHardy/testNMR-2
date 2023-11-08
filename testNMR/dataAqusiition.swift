@@ -49,6 +49,16 @@ var j = 0
 // Now FT and Fit
    // sizeArray(array: &yRealdata, size: 4096)
     //sizeArray(array: &yImagdata, size: 4096)
+// Use Butterworth and Convolution filters need to sue values base on experiment
+// for example use these for "FID" not "SPIN_ECHO"
+    let spectrumMode = "FID"
+    let ndata = 4096
+    let frequencyIN = 21000.0
+    let samplingTimeIn = 1E-6
+    let cutOFF = 21000.0
+    let windowIn = 1800.00
+    yRealdata = myFilter(spectrumMode,ndata,frequencyIN, samplingTimeIn,cutOFF,windowIn,yRealdata)
+    yImagdata = myFilter(spectrumMode,ndata,frequencyIN, samplingTimeIn,cutOFF,windowIn,yImagdata)
     let ftResult = complexFFT(yRealdata,yImagdata)
     xFTdata = ftResult.0
     xFitdata = ftResult.0
