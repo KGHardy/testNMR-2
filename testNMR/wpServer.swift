@@ -12,6 +12,8 @@ var redPitayaIp = "10.42.0.1"
 let BLKS = 512
 let BUFSIZE = 4096
 
+let PARAMETERS_VERSION = "1.0.0"
+
 struct NewParameters: Codable {
     var hostName: String?           // 0
     var portNo: Int?                // 1
@@ -32,27 +34,31 @@ struct NewParameters: Codable {
     var tauD: Int?                  // 14
     var progSatDelay: [Int]?        // 15
     var userTag: String?
+    var version: String?
     
     mutating func defaults() -> Void {
-        if hostName == nil { hostName = redPitayaIp }
-        if portNo == nil { portNo = 1001 }
-        if ncoFreq == nil { ncoFreq = 16004000 }
-        if pulseLength == nil { pulseLength = 5000 }
-        if pulseStep == nil { pulseStep = 0}
-        if littleDelta == nil { littleDelta = 0 }
-        if bigDelta == nil { bigDelta = 0 }
-        //if noScans == nil { noScans = 1 }
-        if gradient == nil { gradient = 0 }
-        //if noExpts == nil { noExpts = 1 }
-        if rptTime == nil { rptTime = 1000 }
-        if tauTime == nil { tauTime = 0 }
-        if tauInc == nil { tauInc = 0 }
-        if noData == nil { noData = 5000 }
-        if exptSelect == nil { exptSelect = "FID" }
-        if delayInSeconds == nil { delayInSeconds = 1.0 }
-        if tauD == nil { tauD = 0 }
-        if progSatDelay == nil { progSatDelay = [-1]}
-        if userTag == nil {userTag = "" }
+        if PARAMETERS_VERSION == "1.0.0" {
+            if hostName == nil { hostName = redPitayaIp }
+            if portNo == nil { portNo = 1001 }
+            if ncoFreq == nil { ncoFreq = 16004000 }
+            if pulseLength == nil { pulseLength = 5000 }
+            if pulseStep == nil { pulseStep = 0}
+            if littleDelta == nil { littleDelta = 0 }
+            if bigDelta == nil { bigDelta = 0 }
+            //if noScans == nil { noScans = 1 }
+            if gradient == nil { gradient = 0 }
+            //if noExpts == nil { noExpts = 1 }
+            if rptTime == nil { rptTime = 1000 }
+            if tauTime == nil { tauTime = 0 }
+            if tauInc == nil { tauInc = 0 }
+            if noData == nil { noData = 5000 }
+            if exptSelect == nil { exptSelect = "FID" }
+            if delayInSeconds == nil { delayInSeconds = 1.0 }
+            if tauD == nil { tauD = 0 }
+            if progSatDelay == nil { progSatDelay = [-1]}
+            if userTag == nil {userTag = "" }
+            version = "1.0.0"
+        }
     }
     enum CodingKeys: String, CodingKey {
         case hostName = "hostname"
@@ -74,6 +80,7 @@ struct NewParameters: Codable {
         case tauD = "taud"
         case progSatDelay = "progsatdelay"
         case userTag = "usertag"
+        case version = "version"
     }
 }
 

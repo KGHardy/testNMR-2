@@ -183,6 +183,7 @@ struct GlobalData {
         }
         nparams.progSatDelay = [-1]
         nparams.userTag = ""
+        nparams.version = PARAMETERS_VERSION
         return nparams
     }
 }

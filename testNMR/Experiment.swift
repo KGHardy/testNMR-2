@@ -9,7 +9,7 @@ import Foundation
 
 struct ScanResult: Codable {
     var parameters: NewParameters
-    var nmrResult : [[Int16]]
+    var datapoints : [[Int16]]
 }
 
 struct RunData {
@@ -125,6 +125,23 @@ class ExperimentDefinition {
             runData.results[runData.run][runData.experiment].append(nmr.newResult)
         }
         
+        func saveData() -> Void {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            do {
+                let data = try encoder.encode(runData.results)
+                let format = DateFormatter()
+                format.timeZone = .gmt
+                format.dateFormat = "yyyyMMddHHmmss"
+                let filename = format.string(from: Date()) + ".json"
+                saveToFile(string: String(data: data, encoding: .utf8)!, filename: filename)
+            }
+            catch {
+                return
+            }
+
+        }
+        
         func callExperiment() -> Void {
             runData.errorMsg = ""
             for run in 0..<runData.runCount {
@@ -175,6 +192,7 @@ class ExperimentDefinition {
             DispatchQueue.main.async {
                 self.endRunUI()
             }
+            saveData()
         }
         
         runData.run = 0
