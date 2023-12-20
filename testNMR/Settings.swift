@@ -129,103 +129,7 @@ enum ParamView {
     case slider
     case input
 }
-/*
-struct Param {
-    var pName: String
-    var pPrompt: String
-    var pType: ParamType
-    var pView: ParamView
-    
-    var min: Double?
-    var max: Double?
-    
-    var values: [String]?
-    
-    init(_ pName: String, _ pPrompt: String, _ pType: ParamType, _ pView: ParamView) {
-        self.pName = pName
-        self.pPrompt = pPrompt
-        self.pType = pType
-        self.pView = pView
-    }
-}
 
-var Parameters: [Param] = [Param("hostname", "Host Name", .string, .text),
-                           Param("portno", "Port Number", .integer, .text),
-                           Param("ncofreq", "nco Frequency", .integer, .slider)
-]
-
-
-struct NewParameterMap {
-    var params  = ["hostname",          // 0                String
-                   "portno",            // 1                Integer
-                   "ncofreq",           // 2                Integer
-                   "pulselength",       // 3                Integer
-                   "pulsestep",         // 4 = 0            Integer
-                   "littledelta",       // 5                Integer
-                   "bigdelta",          // 6                Integer
-                   "gradient",          // 7                Integer
-                   "rpttime",           // 8                Integer
-                   "tautime",           // 9                Integer
-                   "tauinc",            // 10               Integer
-                   "nodata",            // 11               Integer
-                   "exptselect",        // 12               String
-                   "delayinseconds",    // 13               Double
-                   "taud",              // 14               Integer
-                   "progsatarray",      // 15               Integer Array
-                   "sample",            //                  String
-                   "noruns",            //                  Integer
-                   "noexperiments",     //                  Integer
-                   "noscans"            //                  Integer
-                  ]
-    
-    var paramTypes: [ParamType] = [
-                    .string,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .integer,
-                    .string,
-                    .double,
-                    .integer,
-                    .integerarray,
-                    .string,
-                    .integer,
-                    .integer,
-                    .integer
-    ]
-    var prompts = [
-                                            // Passed parameter data
-                    "Host Name",
-                    "Port Number",
-                    "Frequency",
-                    "Pulse Length",
-                    "Pulse Step",
-                    "Little Delta",
-                    "Big Delta",
-                    "Gradient",
-                    "Repeat Time",
-                    "Tau Time",
-                    "Tau Inc",
-                    "Number of Datapoints",
-                    "Experiment Name",
-                    "Delay in Seconds",
-                    "Tau D",
-                    "Prog Sat Delay",
-                                            // Other data to be entered
-                    "Sample",
-                    "Number of Runs",
-                    "Number of Experiments",
-                    "Number of Scans"
-                  ]
-}
-*/
 struct ParameterMap: Codable {
     var prompts = ["Experiment",                //  0
                    "Sample",                    //  1
@@ -247,42 +151,23 @@ struct ParameterMap: Codable {
                    "No of Runs",                // 17
                    "No of Exeriments",          // 18
                    "No of Scans",               // 19
-                   "Action Buttons"             // 20
+                   "Spectrum Mode",             // 20
+                   "T1 Guess",                  // 21
+                   "T2 Guess",                  // 22
+                   "Tau Step",                  // 23
+                   "No of Data Points",         // 24
+                   "Sampling Time",             // 25
+                   "Filter Frequency",          // 26
+                   "Window Time",               // 27
+                   "Action Buttons"             // 28
     ]
     
-    var page : [[Int]] = [[1,2,3,0,4,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,7],
-                          [0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,0,9,0,0,0,10],
-                          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4],
-                          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-/*
-    @ViewBuilder func getView(page: Int, index: Int) -> some View {
-        
-        switch index {
-        case 0:  ExperimentView(page: page)
-        case 1:  SampleView(page: page)
-        case 2:  FrequencyView(page: page)
-        case 3:  PulseLengthView(page: page)
-        case 4:  Text("Parameter 4")
-        case 5:  LittleDeltaView(page: page)
-        case 6:  BigDeltaView(page: page)
-        case 7:  GradientView(page: page)
-        case 8:  RepeatTimeView(page: page)
-        case 9:  TauTimeView(page: page)
-        case 10: TauIncView(page: page)
-        case 11: NoDataView(page: page)
-        case 12: Text("Parameter 12")
-        case 13: DelayInSecondsView(page: page)
-        case 14: TauDView(page: page)
-        case 15: Text("Parameter 15")
-        case 16: Text("Parameter 16")
-        case 17: NumberOfRunsView(page: page)
-        case 18: NumberOfExperimentsView(page: page)
-        case 19: NumberOfScansView(page: page)
-        case 20: ActionButtons(page: page)
-        default: EmptyView()
-        }
-    }
-*/
+    var page : [[Int]] = [[ 1, 2, 3, 4, 0, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,29],
+                          [ 0, 0, 0, 0, 0, 0, 0, 8, 9,10,11,12,13,14,15, 0,17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,29],
+                          [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,18,19,20,21, 0, 0, 0, 0, 0, 0, 0,29],
+                          [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,22,23,24,25,26,27,28,29]]
+    //var pageSeq: [[Int]] = [[0,1,2,3,5,6,28],[7,8,9,10,11,13,14,16,28],[17,18,19,28],[20,21,22,23,24,25,26,27]]
+
     func nextFocus(index: [Int]) -> Int {
         var ix0 = index[0]
         var ix1 = index[1] + 1
@@ -320,9 +205,9 @@ enum ViewTypes {
 }
 
 struct ParamPos {
-    var pages : [Int] = [0,1,2]
+    var pages : [Int] = [0,1,2,3]
     
-    var pageSeq: [[Int]] = [[0,1,2,3,5,6,20],[7,8,9,10,11,13,14,16,20],[17,18,19,20]]
+    var pageSeq: [[Int]] = [[0,1,2,3,5,6,28],[7,8,9,10,11,13,14,16,28],[17,18,19,28],[20,21,22,23,24,25,26,27]]
     
         var paramViewType: [ViewTypes] = [.picker,      //  0
                                           .picker,      //  1
@@ -344,6 +229,13 @@ struct ParamPos {
                                           .stepper,     // 17
                                           .stepper,     // 18
                                           .stepper,     // 19
+                                          .input,       // 21
+                                          .input,       // 22
+                                          .input,       // 23
+                                          .input,       // 24
+                                          .input,       // 25
+                                          .input,       // 26
+                                          .input,       // 27
                                           .button]      // 20
     
     mutating func build(paramMap: ParameterMap) -> Void {
@@ -463,10 +355,10 @@ struct SettingsPP: View {
         //let fontSize : CGFloat  = oniPad ? 24 : 16
         NavigationView {
             GeometryReader {reader in
-                    //List {
+                ScrollView {
                     //Group() {
-                VStack(spacing: -5) {
-                    ForEach (0..<allSettings.paramMap.prompts.count, id: \.self) { index in
+                    VStack(spacing: -5) {
+                        ForEach (0..<allSettings.paramMap.prompts.count, id: \.self) { index in
                             if allSettings.paramMap.prompts[index] != "" {
                                 if index == 0 {
                                     HStack {
@@ -480,16 +372,16 @@ struct SettingsPP: View {
                                         Spacer()
                                         Text(oniPad ? "P1 seq" : "P1")
                                             .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
-                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        //.font(.system(size: oniPad ? 17 : 15))
                                         Text(oniPad ? "P2 seq" : "P2")
                                             .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
-                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        //.font(.system(size: oniPad ? 17 : 15))
                                         Text(oniPad ? "P3 seq" : "P3")
                                             .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
-                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        //.font(.system(size: oniPad ? 17 : 15))
                                         Text(oniPad ? "P4 seq" : "P4")
                                             .frame(width: reader.size.width * 0.09, height: vH.stepper, alignment: .leading)
-                                            //.font(.system(size: oniPad ? 17 : 15))
+                                        //.font(.system(size: oniPad ? 17 : 15))
                                     }
                                     .frame(height: vH.stepper)
                                 }
@@ -502,34 +394,35 @@ struct SettingsPP: View {
                                 .frame(height: vH.stepper)
                             }
                         }
-                    HStack {
-                        Spacer()
-                        Button(action:{
-                            allSettings.paramMap = copySettings.paramMap
-                            paramPos.build(paramMap: allSettings.paramMap)
-                            saveSettings()
-                            presentationMode.wrappedValue.dismiss()
-                        }, label:{
-                            Text("Save")
-                                .font(.system(size: oniPad ? 24 : 16))
-                                .padding(5)
-                                .border(.black)
-                        })
-                        Button(action:{
-                            copySettings.paramMap = allSettings.paramMap
-                            presentationMode.wrappedValue.dismiss()
-                        }, label:{
-                            Text("Cancel")
-                                .font(.system(size: oniPad ? 24 : 16))
-                                .foregroundColor(.red)
-                                .padding(5)
-                                .border(.black)
-                        })
+                        HStack {
+                            Spacer()
+                            Button(action:{
+                                allSettings.paramMap = copySettings.paramMap
+                                paramPos.build(paramMap: allSettings.paramMap)
+                                saveSettings()
+                                presentationMode.wrappedValue.dismiss()
+                            }, label:{
+                                Text("Save")
+                                    .font(.system(size: oniPad ? 24 : 16))
+                                    .padding(5)
+                                    .border(.black)
+                            })
+                            Button(action:{
+                                copySettings.paramMap = allSettings.paramMap
+                                presentationMode.wrappedValue.dismiss()
+                            }, label:{
+                                Text("Cancel")
+                                    .font(.system(size: oniPad ? 24 : 16))
+                                    .foregroundColor(.red)
+                                    .padding(5)
+                                    .border(.black)
+                            })
+                            Spacer()
+                        }
                         Spacer()
                     }
-                    Spacer()
+                    .navigationBarTitle("Parameter Map", displayMode: .inline)
                 }
-                .navigationBarTitle("Parameter Map", displayMode: .inline)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

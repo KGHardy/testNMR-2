@@ -123,6 +123,30 @@ struct GlobalData {
     // index 19
     var noOfScans: Int = 1
     
+    // index 20
+    var spectrumMode: String = "FID"
+    
+    // index 21
+    var t1Guess: Int = 100              // ma
+    
+    // index 22
+    var t2Guess: Int = 100              // ms
+    
+    // index 23
+    var tauStep: Int = 0                // ms
+    
+    // index 24
+    var noOfDataPoints: Int = 5000
+    
+    // index 25
+    var samplingTime: Double = 1e-6     // seconds
+    
+    // index 26
+    var filterFrequency: Int = 200000   // Hz
+    
+    // index 27
+    var windowTime: Int = 1000
+    
     mutating func initialValues() -> Void {
         experiment = experiments[0]
         sample = samples[0]
@@ -181,9 +205,36 @@ struct GlobalData {
         if dparams.tauD != tauD {
             nparams.tauD = tauD
         }
+        
         nparams.progSatDelay = [-1]
         nparams.userTag = ""
         nparams.version = PARAMETERS_VERSION
+        
+        if dparams.spectrumMode != spectrumMode {
+            nparams.spectrumMode = spectrumMode
+        }
+        if dparams.t1Guess != t1Guess {
+            nparams.t1Guess = t1Guess
+        }
+        if dparams.t2Guess != t2Guess {
+            nparams.t2Guess = t2Guess
+        }
+        if dparams.tauStep != tauStep {
+            nparams.tauStep = tauStep
+        }
+        if dparams.noOfDataPoints != noOfDataPoints {
+            nparams.noOfDataPoints = noOfDataPoints
+        }
+        if dparams.samplingTime != samplingTime {
+            nparams.samplingTime = samplingTime
+        }
+        if dparams.filterFrequency != filterFrequency {
+            nparams.filterFrequency = filterFrequency
+        }
+        if dparams.windowTime != windowTime {
+            nparams.windowTime = windowTime
+        }
+
         return nparams
     }
 }

@@ -47,6 +47,24 @@ func sliderChanged (_ value: Float, _ index: Int) -> Void {
             gData.noOfExperiments = Int(value)
         case 19:
             gData.noOfScans = Int(value)
+      /*
+        case 20:
+            gData.spectrumMode
+       */
+        case 21:
+            gData.t1Guess = Int(value)
+        case 22:
+            gData.t2Guess = Int(value)
+        case 23:
+            gData.tauStep = Int(value)
+        case 24:
+            gData.noOfDataPoints = Int(value)
+        case 25:
+            gData.samplingTime = Double(value)
+        case 26:
+            gData.filterFrequency = Int(value)
+        case 27:
+            gData.windowTime = Int(value)
         default: break
     }
 }
@@ -164,6 +182,20 @@ struct IntegerParameter: View {
             gData.noOfExperiments = Int(value) ?? 0
         case 19:
             gData.noOfScans = Int(value) ?? 0
+        case 21:
+            gData.t1Guess = Int(value) ?? 0
+        case 22:
+            gData.t2Guess = Int(value) ?? 0
+        case 23:
+            gData.tauStep = Int(value) ?? 0
+        case 24:
+            gData.noOfDataPoints = Int(value) ?? 0
+        case 25:
+            gData.samplingTime = Double(value) ?? 0
+        case 26:
+            gData.filterFrequency = Int(value) ?? 0
+        case 27:
+            gData.windowTime = Int(value) ?? 0
         default: break
         }
    }
@@ -226,6 +258,8 @@ struct TextParameter: View {
             gData.sample = value
         case 16:
             gData.userTag = value
+        case 20:
+            gData.spectrumMode = value
         default: break
         }
    }
@@ -296,6 +330,20 @@ struct DoubleParameter: View {
             gData.noOfExperiments = Int(value) ?? 0
         case 19:
             gData.noOfScans = Int(value) ?? 0
+        case 21:
+            gData.t1Guess = Int(value) ?? 0
+        case 22:
+            gData.t2Guess = Int(value) ?? 0
+        case 23:
+            gData.tauStep = Int(value) ?? 0
+        case 24:
+            gData.noOfDataPoints = Int(value) ?? 0
+        case 25:
+            gData.samplingTime = Double(value) ?? 0
+        case 26:
+            gData.filterFrequency = Int(value) ?? 0
+        case 27:
+            gData.windowTime = Int(value) ?? 0
         default: break
         }
    }
@@ -372,6 +420,20 @@ func stepperChanged(_ value: Int, _ index: Int) -> Void {
         gData.noOfExperiments = Int(value)
     case 19:
         gData.noOfScans = Int(value)
+    case 21:
+        gData.t1Guess = Int(value)
+    case 22:
+        gData.t2Guess = Int(value)
+    case 23:
+        gData.tauStep = Int(value)
+    case 24:
+        gData.noOfDataPoints = Int(value)
+    case 25:
+        gData.samplingTime = Double(value)
+    case 26:
+        gData.filterFrequency = Int(value)
+    case 27:
+        gData.windowTime = Int(value)
     default:
         break
     }
@@ -684,6 +746,101 @@ struct LittleDeltaView: View {
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[5])", page: page, index: 5, value: $littleDelta, minimum: 0, maximum: 10000000)
             .frame(height: vH.slider)
+    }
+}
+
+struct T1GuessView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var t1Guess = "\(gData.t1Guess)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[21])", page: page, index: 21, value: $t1Guess, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct T2GuessView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var t2Guess = "\(gData.t2Guess)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[22])", page: page, index: 22, value: $t2Guess, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct TauStepView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var tauStep = "\(gData.tauStep)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[23])", page: page, index: 23, value: $tauStep, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct NoOfDataPointsView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var noOfDataPoints = "\(gData.noOfDataPoints)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[24])", page: page, index: 24, value: $noOfDataPoints, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct SamplingTimeView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var samplingTime = "\(gData.samplingTime)"
+    
+    var body: some View {
+        DoubleParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[25])", page: page, index: 25, value: $samplingTime, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct FilterFrequencyView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var filterFrequency = "\(gData.filterFrequency)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[26])", page: page, index: 26, value: $filterFrequency, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct WindowTimeView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var windowTime = "\(gData.windowTime)"
+    
+    var body: some View {
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[27])", page: page, index: 27, value: $windowTime, minimum: 0, maximum: 0)
+            .frame(height: vH.slider)
+    }
+}
+
+struct SpectrumModeView: View {
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    
+    @State var spectrumMode = gData.spectrumMode
+    
+    var body: some View {
+        TextParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[20])", page: page, index: 20, value: $spectrumMode)
     }
 }
 

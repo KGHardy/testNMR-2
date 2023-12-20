@@ -37,6 +37,79 @@ var graphMargins = GraphMargins(error: 0, top:20, bottom:40, left: 70, right: 30
 var xLabels: [String] = []
 var yLabels: [String] = []
 
+struct ViewSet1 : View {
+    @EnvironmentObject var vC: ViewControl
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    var v: Int
+
+    var body: some View {
+        
+        if v == 0 { ExperimentView(page: page) }
+        if v == 1 { SampleView(page: page) }
+        if v == 2 { FrequencyView(focus: $focus, page:page) }
+        if v == 3 { PulseLengthView(focus: $focus, page: page) }
+        if v == 4 { Text("Parameter 4") }
+        if v == 5 { LittleDeltaView(focus: $focus, page: page) }
+        if v == 6 { BigDeltaView(focus: $focus, page: page) }
+        if v == 7 { GradientView(focus: $focus, page: page) }
+    }
+}
+
+struct ViewSet2 : View {
+    @EnvironmentObject var vC: ViewControl
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    var v: Int
+
+    var body: some View {
+        
+        if v == 8 { RepeatTimeView(focus: $focus, page: page) }
+        if v == 9 { TauTimeView(focus: $focus, page: page) }
+        if v == 10 { TauIncView(focus: $focus, page: page) }
+        if v == 11 { NoDataView(focus: $focus, page: page) }
+        if v == 12 { Text("Parameter 12") }
+        if v == 13 { DelayInSecondsView(focus: $focus, page: page) }
+        if v == 14 { TauDView(focus: $focus, page: page) }
+        if v == 15 { Text("Parameter 15") }
+    }
+}
+
+struct ViewSet3 : View {
+    @EnvironmentObject var vC: ViewControl
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    var v: Int
+
+    var body: some View {
+        
+        if v == 16 { UserTagView(focus: $focus, page: page)}
+        if v == 17 { NumberOfRunsView(focus: $focus, page: page) }
+        if v == 18 { NumberOfExperimentsView(focus: $focus, page: page) }
+        if v == 19 { NumberOfScansView(focus: $focus, page: page) }
+        if v == 20 { UserTagView(focus: $focus, page: page) }
+        if v == 21 { T1GuessView(focus: $focus, page: page) }
+        if v == 22 { T2GuessView(focus: $focus, page: page) }
+        if v == 23 { TauStepView(focus: $focus, page: page) }
+    }
+}
+
+struct ViewSet4 : View {
+    @EnvironmentObject var vC: ViewControl
+    @FocusState.Binding var focus: Focusable?
+    var page: Int
+    var v: Int
+
+    var body: some View {
+        
+        if v == 24 { NoOfDataPointsView(focus: $focus, page: page) }
+        if v == 25 { SamplingTimeView(focus: $focus, page: page) }
+        if v == 26 { FilterFrequencyView(focus: $focus, page: page) }
+        if v == 27 { WindowTimeView(focus: $focus, page: page) }
+        if v == 28 { ActionButtons(page: page) }
+    }
+}
+
 struct TabPageView : View {
     @EnvironmentObject var vC: ViewControl
     @FocusState.Binding var focus: Focusable?
@@ -46,67 +119,22 @@ struct TabPageView : View {
         VStack (spacing: -10){
             ForEach(paramPos.pageSeq[page],id:\.self) {v in
                 if allSettings.paramMap.prompts[v] != "" {
-                    
-                        Group {
-                            if v == 0 { ExperimentView(page: page) }
-                            if v == 1 { SampleView(page: page) }
-                            if v == 2 { FrequencyView(focus: $focus, page: page) }
-                            if v == 3 { PulseLengthView(focus: $focus, page: page) }
-                            if v == 4 { Text("Parameter 4") }
-                            if v == 5 { LittleDeltaView(focus: $focus, page: page) }
-                            if v == 6 { BigDeltaView(focus: $focus, page: page) }
-                            if v == 7 { GradientView(focus: $focus, page: page) }
-                            
-                            if v == 8 { RepeatTimeView(focus: $focus, page: page) }
-                            if v == 9 { TauTimeView(focus: $focus, page: page) }
+                    if v < 8 {
+                        ViewSet1(focus: $focus, page: page, v: v)
+                    } else {
+                        if v < 16 {
+                            ViewSet2(focus: $focus, page: page, v: v)
+                        } else {
+                            if v < 24 {
+                                ViewSet3(focus: $focus, page: page, v: v)
+                            } else {
+                                if v < 32 {
+                                    ViewSet4(focus: $focus, page: page, v: v)
+                                }
+                            }
                         }
-                        Group {
-                            if v == 10 { TauIncView(focus: $focus, page: page) }
-                            if v == 11 { NoDataView(focus: $focus, page: page) }
-                            if v == 12 { Text("Parameter 12") }
-                            if v == 13 { DelayInSecondsView(focus: $focus, page: page) }
-                            if v == 14 { TauDView(focus: $focus, page: page) }
-                            if v == 15 { Text("Parameter 15") }
-                            if v == 16 { UserTagView(focus: $focus, page: page)}
-                            if v == 17 { NumberOfRunsView(focus: $focus, page: page) }
-                            if v == 18 { NumberOfExperimentsView(focus: $focus, page: page) }
-                            if v == 19 { NumberOfScansView(focus: $focus, page: page) }
-                        }
-                        Group {
-                            if v == 20 { ActionButtons(page: page) }
-                        }
-                    
-                    /*
-                    switch v {
-                        case 0:  ExperimentView(page: page)
-                        case 1:  SampleView(page: page)
-                        case 2:  FrequencyView(focus: $focus, page: page)
-                        case 3:  PulseLengthView(focus: $focus, page: page)
-                        case 4:  Text("Parameter 4")
-                        case 5:  LittleDeltaView(focus: $focus, page: page)
-                        case 6:  BigDeltaView(focus: $focus, page: page)
-                        case 7:  GradientView(focus: $focus, page: page)
-                        case 8:  RepeatTimeView(focus: $focus, page: page)
-                        case 9:  TauTimeView(focus: $focus, page: page)
-                        case 10: TauIncView(focus: $focus, page: page)
-                        case 11: NoDataView(focus: $focus, page: page)
-                        case 12: Text("Parameter 12")
-                        case 13: DelayInSecondsView(focus: $focus, page: page)
-                        case 14: TauDView(focus: $focus, page: page)
-                        case 15: Text("Parameter 15")
-                        case 16: Text("Parameter 16")
-                        case 17: NumberOfRunsView(focus: $focus, page: page)
-                        case 18: NumberOfExperimentsView(focus: $focus, page: page)
-                        case 19: NumberOfScansView(focus: $focus, page: page)
-                        case 20: ActionButtons(focus: $focus, page: page)
-                        default: EmptyView()
                     }
-                     */
                 }
-//                if allSettings.paramMap.prompts[v] != "" {
-//                    allSettings.paramMap.getView(page: page, index: v)
-//                    Divider()
-//                }
             }
             Spacer()
         }

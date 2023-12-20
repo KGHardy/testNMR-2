@@ -36,6 +36,18 @@ struct NewParameters: Codable {
     var userTag: String?
     var version: String?
     
+    // remaining items are not used here. Provided for use in the client app
+    //  they are here so they will be saved with the other items
+    
+    var spectrumMode: String?
+    var t1Guess: Int?
+    var t2Guess: Int?
+    var tauStep: Int?
+    var noOfDataPoints: Int?
+    var samplingTime: Double?
+    var filterFrequency: Int?
+    var windowTime: Int?
+    
     mutating func defaults() -> Void {
         if PARAMETERS_VERSION == "1.0.0" {
             if hostName == nil { hostName = redPitayaIp }
@@ -58,6 +70,14 @@ struct NewParameters: Codable {
             if progSatDelay == nil { progSatDelay = [-1]}
             if userTag == nil {userTag = "" }
             version = "1.0.0"
+            if spectrumMode == nil { spectrumMode = "FID"}
+            if t1Guess == nil { t1Guess = 100 }
+            if t2Guess == nil { t2Guess = 100 }
+            if tauStep == nil { tauStep = 0 }
+            if noOfDataPoints == nil { noOfDataPoints = 5000 }
+            if samplingTime == nil { samplingTime = 1e-6 }
+            if filterFrequency == nil { filterFrequency = 200000 }
+            if windowTime == nil { windowTime = 1000 }
         }
     }
     enum CodingKeys: String, CodingKey {
@@ -81,6 +101,14 @@ struct NewParameters: Codable {
         case progSatDelay = "progsatdelay"
         case userTag = "usertag"
         case version = "version"
+        case spectrumMode = "spectrummode"
+        case t1Guess = "t1guess"
+        case t2Guess = "t2guess"
+        case tauStep = "taustep"
+        case noOfDataPoints = "noofdatapoints"
+        case samplingTime = "samplingtime"
+        case filterFrequency = "filterfrequency"
+        case windowTime = "windowtime"
     }
 }
 
