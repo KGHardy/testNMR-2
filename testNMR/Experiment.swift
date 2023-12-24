@@ -219,8 +219,9 @@ class ExperimentDefinition {
 
 
 var xData = Array(stride(from:0.0, through: Double(4095), by: 1.0))
-
 var fitsReturned: [[Double]] = [[]]
+
+// *******  Specific arrays and functionsfor Frequency sweep experiments ********
 var frequencyMeasured: [Double] = []
 var frequencyScan: [Double] = []
 
@@ -292,6 +293,7 @@ func doFindResonanceExperiment() -> Void {
     definition.scanCount = gData.noOfScans
 
     definition.parameters.append(nparams)      // array of parameters so can be different for some scans
+    //Specific functions for Frequency Swedp
     definition.preScan = clearFRAnalysis       // clear analysis totals before a new run
     definition.postScan = doFRAnalysis         // calls analysis function after each scan
     definition.postScanUI = showFRFit          // set graph display after each scan
@@ -302,6 +304,70 @@ func doFindResonanceExperiment() -> Void {
     
     definition.run()
 }
+
+// ******* Specific arrays and functionsfor Frequency sweep experiments ********
+var pulseMeasured: [Double] = []
+var pulseScan: [Double] = []
+
+func doPulseAnalysis() -> Bool {
+    let dataReturn = dataAquirer(xData,runData.nmrResult)
+    yRealdata = dataReturn.1
+    yImagdata = dataReturn.2
+    xFTdata = dataReturn.3
+    yFTdata = dataReturn.4
+    xFitdata = dataReturn.5
+    yFitdata = dataReturn.6
+    if runData.scan == 0 {
+        fitsReturned.append([dataReturn.7, dataReturn.8, dataReturn.9])
+        pulseMeasured.append(dataReturn.7)   //FIXME
+        pulseScan.append(Double(runData.definition!.parameters[0].ncoFreq!)) //FIXME
+    } else {
+        fitsReturned[runData.experiment] = [dataReturn.7, dataReturn.8, dataReturn.9]
+        pulseMeasured[runData.experiment] = dataReturn.7 //FIXME
+    }
+    
+    if frequencyScan.count > 1 {
+        xPsd = (0..<pulseScan.count).map {pulseScan[$0]} //FIXME
+        yPsd = (0..<pulseMeasured.count).map {pulseMeasured[$0] }
+        let result = linearFit(xPsd,yPsd) //FIXME
+        xFit = result.0
+        yFit = result.1
+        
+        let xScale = xFit.max()! - xFit.min()!
+        let yScale = yFit.max()! - yFit.min()!
+        
+        let x0 = 0 - xFit.min()!
+        let y0 = yScale * x0 / xScale - yFit.max()!
+        
+        //print(y0)
+        gData.ncoFreq = 16000000 - Int(y0)
+    }
+
+    return true
+}
+
+func clearPulseAnalysis() -> Bool {
+    if runData.experiment == 0 && runData.scan == 0 {   //start a run }
+        fitsReturned.removeAll(keepingCapacity: true)
+        pulseMeasured.removeAll(keepingCapacity: true)
+        pulseScan.removeAll(keepingCapacity: true)
+    }
+    return true         // true means continue - false means abort (set runData.errorMsg to say why)
+}
+//FIXME
+func showPulseFit() -> Void {
+    viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
+    viewControl.ncoFreq = "\(gData.ncoFreq)"
+    viewControl.disableNcoFreq = true
+}
+//FIXME
+func showPulseFitEnd() -> Void {
+    showPulseFit()
+    viewControl.viewTag = 0
+}
+
+
+
 
 func doFindPulseLengthExperiment() -> Void {
     var nparams = gData.buildParameters()
@@ -316,7 +382,14 @@ func doFindPulseLengthExperiment() -> Void {
     
     definition.parameters.append(nparams)
     
-    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
+    //Specific functions for Pulse Sweep
+    definition.preScan = clearPulseAnalysis       // clear analysis totals before a new run
+    definition.postScan = doPulseAnalysis         // calls analysis function after each scan
+    definition.postScanUI = showPulseFit          // set graph display after each scan
+    definition.endRunUI = showPulseFitEnd         // set graph display to desired end result
+  
+    
+    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 10.0, when: .experiment, pause: gData.delayInSeconds)
     definition.steps.append(step1)
     
     definition.run()
