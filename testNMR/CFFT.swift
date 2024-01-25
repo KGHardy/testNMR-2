@@ -63,7 +63,7 @@ func complexFFT(_ complexReals:[Double], _ complexImaginaries:[Double])-> (Array
         xLimited[i] = frequencyRange[flengthHalf-nlimited/2+i]
         sLimited[i] = sarrayAdd[flengthHalf-nlimited/2+i]
     }
-    let yftScale = sLimited.max()!
+    let yftScale = 5000.0 //sLimited.max()!
     for i in 0..<nlimited{
         sOutput[i] = sLimited[i]/yftScale
     }

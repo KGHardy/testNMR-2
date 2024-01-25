@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DFBEEAC7-4978-48C2-97DD-E6E36E56CB13"
-            shouldBeEnabled = "Yes"
+            uuid = "24FE409F-9150-4253-AE8C-D4142B87C895"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "testNMR/Experiment.swift"
+            filePath = "testNMR/CFFT.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "393"
-            endingLineNumber = "393"
-            landmarkName = "doFindPulseLengthExperiment()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "complexFFT(_:_:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "848BEE74-7D42-4575-90C2-87513F3DA734"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testNMR/CFFT.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "complexFFT(_:_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

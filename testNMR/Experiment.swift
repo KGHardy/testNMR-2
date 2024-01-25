@@ -77,8 +77,8 @@ class ExperimentDefinition {
             switch step.name {
             case "ncoFreq":
                 parameters[step.index].ncoFreq! += Int(step.step)
-            case "pulseStep":
-                parameters[step.index].pulseStep! += Int(step.step)
+            case "pulseLength":
+                parameters[step.index].pulseLength! += Int(step.step)
             default:
                 break
             }
@@ -319,20 +319,19 @@ func doPulseAnalysis() -> Bool {
     yFitdata = dataReturn.6
     if runData.scan == 0 {
         fitsReturned.append([dataReturn.7, dataReturn.8, dataReturn.9])
-        pulseMeasured.append(dataReturn.7)   //FIXME
-        pulseScan.append(Double(runData.definition!.parameters[0].ncoFreq!)) //FIXME
+        pulseMeasured.append(dataReturn.8)   //FIXME
+        pulseScan.append(Double(runData.definition!.parameters[0].pulseLength!)) //FIXME
     } else {
         fitsReturned[runData.experiment] = [dataReturn.7, dataReturn.8, dataReturn.9]
-        pulseMeasured[runData.experiment] = dataReturn.7 //FIXME
+        pulseMeasured[runData.experiment] = dataReturn.8 //FIXME
     }
     
-    if frequencyScan.count > 1 {
+    if pulseScan.count > 1 {
         xPsd = (0..<pulseScan.count).map {pulseScan[$0]} //FIXME
         yPsd = (0..<pulseMeasured.count).map {pulseMeasured[$0] }
         let result = linearFit(xPsd,yPsd) //FIXME
         xFit = result.0
         yFit = result.1
-        
         let xScale = xFit.max()! - xFit.min()!
         let yScale = yFit.max()! - yFit.min()!
         
@@ -340,7 +339,7 @@ func doPulseAnalysis() -> Bool {
         let y0 = yScale * x0 / xScale - yFit.max()!
         
         //print(y0)
-        gData.ncoFreq = 16000000 - Int(y0)
+//        gData.ncoFreq = 16000000 - Int(y0) //FIXME
     }
 
     return true
@@ -389,7 +388,7 @@ func doFindPulseLengthExperiment() -> Void {
     definition.endRunUI = showPulseFitEnd         // set graph display to desired end result
   
     
-    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 10.0, when: .experiment, pause: gData.delayInSeconds)
+    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
     definition.steps.append(step1)
     
     definition.run()

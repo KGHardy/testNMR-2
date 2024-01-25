@@ -32,7 +32,7 @@ import SwiftUI
      if portNo == nil { portNo = 1001 }
      if ncoFreq == nil { ncoFreq = 16004000 }
      if pulseLength == nil { pulseLength = 5000 }
-     if pulseStep == nil { pulseStep = 0}
+     if pulseStep == nil { pulseStep = 1000}
      if littleDelta == nil { littleDelta = 0 }
      if bigDelta == nil { bigDelta = 0 }
      if noScans == nil { noScans = 1 }
