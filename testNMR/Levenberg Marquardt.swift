@@ -121,7 +121,6 @@ func line_error(_ selectedExperiment:String,_ params:[Double],_ args:[[Double]])
     var ystar:[Double] = Array(repeating: Double(0.0), count: dataLength)
     // choose function to be fittted
     ystar = chooseEperiment(selectedExperiment, params,x)
-    
     for i in 0..<dataLength{
     ystar[i]=y[i]-ystar[i]
 }
@@ -195,6 +194,7 @@ func line_differentiation(_ selectedExperiment:String, _ params:[Double],_ args:
     let cols = x.count  //data
     //Jacobian
     var J:[[Double]] = Array(repeating: Array(repeating: (0.0), count: cols), count: rows)
+    // Choose Function
     for i in 0..<cols{
         let f:Double = pow(b,2) + pow((c-x[i]),2)
         J[0][i] = a*pow(b,2)/f  // d/da = x

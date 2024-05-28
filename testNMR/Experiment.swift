@@ -243,7 +243,7 @@ func doFRAnalysis() -> Bool {
     }
     
     if frequencyScan.count > 1 {
-        xPsd = (0..<frequencyScan.count).map {frequencyScan[$0] - 16000000}
+        xPsd = (0..<frequencyScan.count).map {frequencyScan[$0] - 12404629}
         yPsd = (0..<frequencyMeasured.count).map {frequencyMeasured[$0] }
         let result = linearFit(xPsd,yPsd)
         xFit = result.0
@@ -256,7 +256,7 @@ func doFRAnalysis() -> Bool {
         let y0 = yScale * x0 / xScale - yFit.max()!
         
         //print(y0)
-        gData.ncoFreq = 16000000 - Int(y0)
+        gData.ncoFreq = 12404629 - Int(y0)
     }
 
     return true
@@ -305,7 +305,7 @@ func doFindResonanceExperiment() -> Void {
     definition.run()
 }
 
-// ******* Specific arrays and functionsfor Frequency sweep experiments ********
+// ******* Specific arrays and functionsfor Pulse length sweep experiments ********
 var pulseMeasured: [Double] = []
 var pulseScan: [Double] = []
 
@@ -329,9 +329,11 @@ func doPulseAnalysis() -> Bool {
     if pulseScan.count > 1 {
         xPsd = (0..<pulseScan.count).map {pulseScan[$0]} //FIXME
         yPsd = (0..<pulseMeasured.count).map {pulseMeasured[$0] }
-        let result = linearFit(xPsd,yPsd) //FIXME
-        xFit = result.0
-        yFit = result.1
+        //func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Double],[Double])
+        let resultFit:([Double],[Double]) = lm("Find Pulse Length",xPsd,yPsd)
+        let scaleHeight = resultFit.0[0]
+        let xFit:[Double] = xPsd //Array(stride(from:minx, through: maxx, by: 2))
+        let yFit = chooseEperiment("Find Pulse Length", resultFit.0,xFit)
         let xScale = xFit.max()! - xFit.min()!
         let yScale = yFit.max()! - yFit.min()!
         
@@ -339,7 +341,7 @@ func doPulseAnalysis() -> Bool {
         let y0 = yScale * x0 / xScale - yFit.max()!
         
         //print(y0)
-//        gData.ncoFreq = 16000000 - Int(y0) //FIXME
+//        gData.ncoFreq = 12404629 - Int(y0) //FIXME
     }
 
     return true
@@ -400,9 +402,38 @@ func doExperiment() -> Void {
             switch ix {
             case 0: doFindResonanceExperiment()
             case 1: doFindPulseLengthExperiment()
+           // case 2: doFindT1Experiment()
+           // case 3: doFindT2Experiment()
             default: break
             }
             
         }
     }
+}
+
+// ******* Specific arrays and functionsfor T1 Experiments ********
+func doFindT1Experiment() -> Void {
+    var nparams = gData.buildParameters()
+    
+    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
+    
+    let definition = ExperimentDefinition()
+    definition.runCount = gData.noOfRuns
+    definition.experimentCount = gData.noOfExperiments
+    definition.scanCount = gData.noOfScans
+    
+    definition.parameters.append(nparams)
+    
+    //Specific functions for Pulse Sweep
+    definition.preScan = clearPulseAnalysis       // clear analysis totals before a new run
+    definition.postScan = doPulseAnalysis         // calls analysis function after each scan
+    definition.postScanUI = showPulseFit          // set graph display after each scan
+    definition.endRunUI = showPulseFitEnd         // set graph display to desired end result
+  
+    
+    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
+    definition.steps.append(step1)
+    
+    definition.run()
 }
