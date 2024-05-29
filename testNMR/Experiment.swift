@@ -333,12 +333,12 @@ func doPulseAnalysis() -> Bool {
         //let scaleHeight = resultFit.0[0]
         //let decayConstant = resultFit.0[1]
         let pulseLengthCalculated = resultFit.0[2]
-        //let xFitLM:[Double] = xPsd //Array(stride(from:minx, through: maxx, by: 2))
+        let xFitLM:[Double] = xPsd //Array(stride(from:minx, through: maxx, by: 2))
         let noOfPoints = 100
-        let xFit = extend(xPsd,noOfPoints)
-        let yFitLM = chooseEperiment("Find Pulse Length", resultFit.0,xFit)
+        let xPlot = extend(xPsd,noOfPoints)
+        let yFitLM = chooseEperiment("Find Pulse Length", resultFit.0,xPlot)
         //let result = linearFit(xPsd,yPsd)
-        //xFit = xPlot //result.0
+        xFit = xPlot //result.0
         yFit = yFitLM //result.1
         let xScale = xFit.max()! - xFit.min()!
         let yScale = yFit.max()! - yFit.min()!
@@ -347,7 +347,7 @@ func doPulseAnalysis() -> Bool {
         let y0 = yScale * x0 / xScale - yFit.max()!
         
         print(y0)
-        gData.pulseLength = Int(pulseLengthCalculated) //FIXME
+        gData.pulseLength = Int(pulseLengthCalculated) //FIXME (may NaN or Overflow)
     }
 
     return true
