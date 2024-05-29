@@ -109,3 +109,33 @@ enum FTStatus {
         }
     }
 }
+// Functiom to remove n elemnts from the beginning of an arry
+//and fill the last values wih the original last value
+func modifyArray(arr: [Double], n: Int) -> [Double] {
+// Guard clause to ensure n is within bounds
+guard n >= 0 && n <= arr.count else {
+    print("Invalid value of n")
+    return arr
+}
+
+// Check if the array is empty or n is 0
+if arr.isEmpty || n == 0 {
+    return arr
+}
+
+// Store the last element of the original array
+let lastElement = arr.last!
+
+// Remove the first n elements
+var modifiedArr = Array(arr.dropFirst(n))
+
+// Calculate the number of times to append the last element
+let elementsToAppend = arr.count - modifiedArr.count
+
+// Append the last element enough times to maintain the original length
+for _ in 0..<elementsToAppend {
+    modifiedArr.append(lastElement)
+}
+
+return modifiedArr
+}

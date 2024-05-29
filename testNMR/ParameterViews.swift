@@ -726,6 +726,7 @@ struct FrequencyView: View {
 }
 
 struct PulseLengthView: View {
+    @EnvironmentObject var vC: ViewControl
     @FocusState.Binding var focus: Focusable?
     var page: Int
     

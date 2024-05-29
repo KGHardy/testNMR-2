@@ -293,7 +293,7 @@ func doFindResonanceExperiment() -> Void {
     definition.scanCount = gData.noOfScans
 
     definition.parameters.append(nparams)      // array of parameters so can be different for some scans
-    //Specific functions for Frequency Swedp
+    //Specific functions for Frequency Sweep
     definition.preScan = clearFRAnalysis       // clear analysis totals before a new run
     definition.postScan = doFRAnalysis         // calls analysis function after each scan
     definition.postScanUI = showFRFit          // set graph display after each scan
@@ -325,23 +325,29 @@ func doPulseAnalysis() -> Bool {
         fitsReturned[runData.experiment] = [dataReturn.7, dataReturn.8, dataReturn.9]
         pulseMeasured[runData.experiment] = dataReturn.8 //FIXME
     }
-    
-    if pulseScan.count > 1 {
-        xPsd = (0..<pulseScan.count).map {pulseScan[$0]} //FIXME
+    // need at least 3 data[poimnts
+    if pulseScan.count > 3 {
+        xPsd = (0..<pulseScan.count).map {pulseScan[$0]+1000}//FIXME
         yPsd = (0..<pulseMeasured.count).map {pulseMeasured[$0] }
-        //func lm(_ selectedExperiment:String,_ xData:[Double],_ sData:[Double]) -> ([Double],[Double])
         let resultFit:([Double],[Double]) = lm("Find Pulse Length",xPsd,yPsd)
-        let scaleHeight = resultFit.0[0]
-        let xFit:[Double] = xPsd //Array(stride(from:minx, through: maxx, by: 2))
-        let yFit = chooseEperiment("Find Pulse Length", resultFit.0,xFit)
+        //let scaleHeight = resultFit.0[0]
+        //let decayConstant = resultFit.0[1]
+        let pulseLengthCalculated = resultFit.0[2]
+        //let xFitLM:[Double] = xPsd //Array(stride(from:minx, through: maxx, by: 2))
+        let noOfPoints = 100
+        let xFit = extend(xPsd,noOfPoints)
+        let yFitLM = chooseEperiment("Find Pulse Length", resultFit.0,xFit)
+        //let result = linearFit(xPsd,yPsd)
+        //xFit = xPlot //result.0
+        yFit = yFitLM //result.1
         let xScale = xFit.max()! - xFit.min()!
         let yScale = yFit.max()! - yFit.min()!
         
         let x0 = 0 - xFit.min()!
         let y0 = yScale * x0 / xScale - yFit.max()!
         
-        //print(y0)
-//        gData.ncoFreq = 12404629 - Int(y0) //FIXME
+        print(y0)
+        gData.pulseLength = Int(pulseLengthCalculated) //FIXME
     }
 
     return true
@@ -358,8 +364,8 @@ func clearPulseAnalysis() -> Bool {
 //FIXME
 func showPulseFit() -> Void {
     viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
-    viewControl.ncoFreq = "\(gData.ncoFreq)"
-    viewControl.disableNcoFreq = true
+    viewControl.pulseLength = "\(gData.pulseLength)"
+    viewControl.disablePulseLength = true
 }
 //FIXME
 func showPulseFitEnd() -> Void {
@@ -437,3 +443,16 @@ func doFindT1Experiment() -> Void {
     
     definition.run()
 }
+
+//Function to create extended x_array
+func extend(_ xIn:[Double],_ noOfPoints:Int) -> [Double]
+{
+    var x:[Double] = Array(repeating: Double(0.0), count: noOfPoints)
+    let xstep = (xIn.max()! - xIn.min()!)/Double(noOfPoints-1)
+    for i in 0..<noOfPoints{
+        x[i] = xstep*Double(i)
+    }
+    return x
+}
+
+ 

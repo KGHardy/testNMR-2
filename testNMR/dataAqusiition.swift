@@ -57,6 +57,11 @@ var j = 0
     let samplingTimeIn = 1E-6
     let cutOFF = 21000.0
     let windowIn = 1800.00
+    // remove points from beginning of array and fill end
+    let drop = 12
+    yRealdata = modifyArray(arr:yRealdata, n:drop)
+    yImagdata = modifyArray(arr:yImagdata, n:drop)
+    
     yRealdata = myFilter(spectrumMode,ndata,frequencyIN, samplingTimeIn,cutOFF,windowIn,yRealdata)
     yImagdata = myFilter(spectrumMode,ndata,frequencyIN, samplingTimeIn,cutOFF,windowIn,yImagdata)
     let ftResult = complexFFT(yRealdata,yImagdata)

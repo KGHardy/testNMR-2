@@ -270,6 +270,8 @@ class ViewControl: ObservableObject {
     /* see comments in GlobalData above */
     @Published var ncoFreq : String = "\(gData.ncoFreq)"
     @Published var disableNcoFreq: Bool = false
+    @Published var pulseLength : String = "\(gData.pulseLength)"
+    @Published var disablePulseLength: Bool = false
 
     func viewRefresh() -> Void {
         viewRefreshFlag = !viewRefreshFlag

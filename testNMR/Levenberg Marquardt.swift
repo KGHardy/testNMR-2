@@ -464,7 +464,7 @@ let maxX = maxd(xLimited)
   //F=@(x,xdata)x(1).*exp(-xdata/x(3)).*abs(sin((pi*xdata)/(2*x(2))))+x(4);
        // a*exp(-x[i]/b)*abs(sin(3.1416*x[i]/(2*c)))
     case("Find Pulse Length"):
-        seeds =  [maxresults.0, maxX.0,xLimited[maxresults.1]]
+        seeds =  [maxresults.0, 1e5,xLimited[maxresults.1]]
     case("Find Resonance"):
         seeds =  [maxresults.0,5000.0,0.0]
     default:
