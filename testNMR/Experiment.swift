@@ -365,7 +365,8 @@ func clearPulseAnalysis() -> Bool {
 }
 //FIXME
 func showPulseFit() -> Void {
-    viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
+    //viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
+    viewControl.viewResult = pulseScan.count > 3 ? .fit : .raw
     viewControl.pulseLength = "\(gData.pulseLength)"
     viewControl.disablePulseLength = true
 }

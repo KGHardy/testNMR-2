@@ -730,10 +730,10 @@ struct PulseLengthView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var pulseLength = "\(gData.pulseLength)"
+    //@State var pulseLength = "\(gData.pulseLength)"
     
     var body: some View {
-        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[3])", page: page, index: 3, value: $pulseLength, minimum: 0, maximum: 20000)
+        IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[3])", page: page, index: 3, value: $vC.pulseLength, minimum: 0, maximum: 20000)
             .frame(height: vH.slider)
     }
 }
