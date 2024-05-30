@@ -215,7 +215,7 @@ struct ContentView: View {
                                     .frame(width: f2.w, height: f2.h)
                                     .position(x: f2.x, y: f2.y)
                             case .fit:
-                                if frequencyScan.count > 1 {
+                                if frequencyScan.count > 1 || pulseScan.count > 1 {
                                     ResultView(xRData: xPsd, yRData: yPsd, xIData: xFit, yIData: yFit, gm: graphMargins) // position and size frame for the view
                                         .frame(width: f2.w, height: f2.h)
                                         .position(x: f2.x, y: f2.y)
@@ -355,19 +355,34 @@ struct ResultView: View {
         
         if ftOption == 0 {
             if yIData.count == 0 {
-                maxY = yRData.max()!
-                minY = yRData.min()!
+                if yRData.count == 0 {
+                    maxY = 0
+                    minY = 0
+                } else {
+                    maxY = yRData.max()!
+                    minY = yRData.min()!
+                }
             } else {
                 maxY = [yRData.max()!, yIData.max()!].max()!
                 minY = [yRData.min()!, yIData.min()!].min()!
             }
         } else {
             if ftOption == 1 {
-                maxY = yRData.max()!
-                minY = yRData.min()!
+                if yRData.count == 0 {
+                    maxY = 0
+                    minY = 0
+                } else {
+                    maxY = yRData.max()!
+                    minY = yRData.min()!
+                }
             } else {
-                maxY = yIData.max()!
-                minY = yIData.min()!
+                if yIData.count == 0 {
+                    maxY = 0
+                    minY = 0
+                } else {
+                    maxY = yIData.max()!
+                    minY = yIData.min()!
+                }
             }
         }
         if maxY > 0 && minY < 0 {

@@ -162,8 +162,10 @@ class ExperimentDefinition {
                                 updateResults()
                                 if self.postScan() {
                                     DispatchQueue.main.async {
+                                        print(viewControl.viewName)
                                         viewControl.viewName = .results
                                         self.postScanUI()
+                                        print(viewControl.viewName)
                                     }
                                 } else {
                                     if runData.errorMsg == "" {
