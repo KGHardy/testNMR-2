@@ -285,9 +285,10 @@ func showFRFitEnd() -> Void {
 }
 
 func doFindResonanceExperiment() -> Void {
-    var nparams = gData.buildParameters()
+    var nparams = gData.buildParameters(exptIndex: 0)
     
     nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    nparams.defaults(exptIndex: 0)
     
     let definition = ExperimentDefinition()
     definition.runCount = gData.noOfRuns
@@ -329,7 +330,8 @@ func doPulseAnalysis() -> Bool {
     }
     // need at least 3 data[poimnts
     if pulseScan.count > 3 {
-        xPsd = (0..<pulseScan.count).map {pulseScan[$0]+1000}//FIXME
+        //xPsd = (0..<pulseScan.count).map {pulseScan[$0]+1000}//FIXME
+        xPsd = (0..<pulseScan.count).map {pulseScan[$0]}//FIXME
         yPsd = (0..<pulseMeasured.count).map {pulseMeasured[$0] }
         let resultFit:([Double],[Double]) = lm("Find Pulse Length",xPsd,yPsd)
         //let scaleHeight = resultFit.0[0]
@@ -380,11 +382,15 @@ func showPulseFitEnd() -> Void {
 
 
 func doFindPulseLengthExperiment() -> Void {
-    var nparams = gData.buildParameters()
+    var nparams = gData.buildParameters(exptIndex: 1)
+    nparams.defaults(exptIndex: 1)
     
-    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
-    nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
-    
+    if gData.ncoFreq > 0 {
+        nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    }
+    if gData.pulseLength > 0 {
+        nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
+    }
     let definition = ExperimentDefinition()
     definition.runCount = gData.noOfRuns
     definition.experimentCount = gData.noOfExperiments
@@ -422,7 +428,7 @@ func doExperiment() -> Void {
 
 // ******* Specific arrays and functionsfor T1 Experiments ********
 func doFindT1Experiment() -> Void {
-    var nparams = gData.buildParameters()
+    var nparams = gData.buildParameters(exptIndex: -1)      // TODO set a proper value
     
     nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
     nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)

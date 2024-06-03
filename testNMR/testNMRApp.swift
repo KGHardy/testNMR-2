@@ -152,10 +152,11 @@ struct GlobalData {
         sample = samples[0]
     }
     
-    func buildParameters() -> NewParameters {
+    func buildParameters(exptIndex: Int) -> NewParameters {
         var dparams = NewParameters()
-        dparams.defaults()
+        dparams.defaults(exptIndex: exptIndex)
         var nparams = NewParameters()
+        nparams.exptIndex = exptIndex
         if allSettings.scanner.hostname != dparams.hostName {
             nparams.hostName = allSettings.scanner.hostname
         }
@@ -165,7 +166,7 @@ struct GlobalData {
         if ncoFreq != dparams.ncoFreq {
             nparams.ncoFreq = ncoFreq
         }
-        if pulseLength != dparams.pulseLength {
+        if pulseLength > 0 && pulseLength != dparams.pulseLength {
             nparams.pulseLength = pulseLength
         }
         if dparams.pulseStep != pulseStep {

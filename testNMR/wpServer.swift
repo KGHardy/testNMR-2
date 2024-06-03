@@ -35,6 +35,7 @@ struct NewParameters: Codable {
     var progSatDelay: [Int]?        // 15
     var userTag: String?
     var version: String?
+    var exptIndex: Int?
     
     // remaining items are not used here. Provided for use in the client app
     //  they are here so they will be saved with the other items
@@ -48,12 +49,12 @@ struct NewParameters: Codable {
     var filterFrequency: Int?
     var windowTime: Int?
     
-    mutating func defaults() -> Void {
+    mutating func defaults(exptIndex: Int) -> Void {
         if PARAMETERS_VERSION == "1.0.0" {
             if hostName == nil { hostName = redPitayaIp }
             if portNo == nil { portNo = 1001 }
             if ncoFreq == nil { ncoFreq = 12404629 }
-            if pulseLength == nil { pulseLength = 5000 }
+            if pulseLength == nil { pulseLength = exptIndex == 1 ? 1000 : 5000 }
             if pulseStep == nil { pulseStep = 0}
             if littleDelta == nil { littleDelta = 0 }
             if bigDelta == nil { bigDelta = 0 }
@@ -78,6 +79,7 @@ struct NewParameters: Codable {
             if samplingTime == nil { samplingTime = 1e-6 }
             if filterFrequency == nil { filterFrequency = 200000 }
             if windowTime == nil { windowTime = 1000 }
+            self.exptIndex = exptIndex
         }
     }
     enum CodingKeys: String, CodingKey {
@@ -266,7 +268,7 @@ class NMRServer: NSObject {
         var bufCPMG = [UInt32](repeating:0,count: BLKS + 1)
         //var tauSteps = [UInt32](repeating:0,count: 13)          // never used?
 
-        p.defaults()
+        p.defaults(exptIndex: p.exptIndex!)
         
         let hostName = p.hostName!               // 0
         let portNo = p.portNo!                   // 1
