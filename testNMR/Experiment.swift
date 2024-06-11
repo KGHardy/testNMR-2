@@ -239,32 +239,6 @@ func doExperiment() -> Void {
     }
 }
 
-// ******* Specific arrays and functionsfor T1 Experiments ********
-func doFindT1Experiment() -> Void {
-    var nparams = gData.buildParameters(exptIndex: -1)      // TODO set a proper value
-    
-    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
-    nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
-    
-    let definition = ExperimentDefinition()
-    definition.runCount = gData.noOfRuns
-    definition.experimentCount = gData.noOfExperiments
-    definition.scanCount = gData.noOfScans
-    
-    definition.parameters.append(nparams)
-    
-    //Specific functions for Pulse Sweep
-    definition.preScan = clearPulseAnalysis       // clear analysis totals before a new run
-    definition.postScan = doPulseAnalysis         // calls analysis function after each scan
-    definition.postScanUI = showPulseFit          // set graph display after each scan
-    definition.endRunUI = showPulseFitEnd         // set graph display to desired end result
-  
-    
-    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
-    definition.steps.append(step1)
-    
-    definition.run()
-}
 
 //Function to create extended x_array
 func extend(_ xIn:[Double],_ noOfPoints:Int) -> [Double]

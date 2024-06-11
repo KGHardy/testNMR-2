@@ -25,6 +25,7 @@
 		DE31E55C2BA7129C006122BD /* filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE31E55B2BA7129C006122BD /* filter.swift */; };
 		DE6139D32C1700E9006492DD /* FindResonance.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6139D22C1700E9006492DD /* FindResonance.swift */; };
 		DE6139D52C170175006492DD /* FindPulseLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6139D42C170175006492DD /* FindPulseLength.swift */; };
+		DE6139D72C1702B3006492DD /* FindT1.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6139D62C1702B3006492DD /* FindT1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		DE31E55B2BA7129C006122BD /* filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filter.swift; sourceTree = "<group>"; };
 		DE6139D22C1700E9006492DD /* FindResonance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindResonance.swift; sourceTree = "<group>"; };
 		DE6139D42C170175006492DD /* FindPulseLength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPulseLength.swift; sourceTree = "<group>"; };
+		DE6139D62C1702B3006492DD /* FindT1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindT1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				1FDAF7282A15083A00AE2BA0 /* ParameterViews.swift */,
 				1FDAF72A2A1CC3CF00AE2BA0 /* Settings.swift */,
 				1FFA243F2A35CCA80014C88F /* Experiment.swift */,
+				DE6139D62C1702B3006492DD /* FindT1.swift */,
 				DE6139D42C170175006492DD /* FindPulseLength.swift */,
 				DE6139D22C1700E9006492DD /* FindResonance.swift */,
 				1FFA24492A39CD260014C88F /* CFFT.swift */,
@@ -191,6 +194,7 @@
 				1FDAF7292A15083A00AE2BA0 /* ParameterViews.swift in Sources */,
 				1FFA24502A39CD260014C88F /* Extras.swift in Sources */,
 				1FFA244F2A39CD260014C88F /* Lorenztian.swift in Sources */,
+				DE6139D72C1702B3006492DD /* FindT1.swift in Sources */,
 				1FFA24522A39CEE10014C88F /* dataAqusiition.swift in Sources */,
 				1FFA24432A35D11A0014C88F /* NWCode.swift in Sources */,
 				DE6139D52C170175006492DD /* FindPulseLength.swift in Sources */,
