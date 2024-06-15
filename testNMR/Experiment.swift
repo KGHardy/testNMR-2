@@ -79,6 +79,8 @@ class ExperimentDefinition {
                 parameters[step.index].ncoFreq! += Int(step.step)
             case "pulseLength":
                 parameters[step.index].pulseLength! += Int(step.step)
+            case "T1":
+                parameters[step.index].tauD! += Int(step.step)
             default:
                 break
             }

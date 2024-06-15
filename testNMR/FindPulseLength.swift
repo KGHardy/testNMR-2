@@ -25,7 +25,7 @@ func doPulseAnalysis() -> Bool {
         pulseScan.append(Double(runData.definition!.parameters[0].pulseLength!)) //FIXME
     } else {
         fitsReturned[runData.experiment] = [dataReturn.7, dataReturn.8, dataReturn.9]
-        pulseMeasured[runData.experiment] = dataReturn.8 //FIXME
+        pulseMeasured[runData.experiment] = dataReturn.8 //FIXME Height of Transformed spectrum
     }
     // need at least 3 data[poimnts
     if pulseScan.count > 3 {

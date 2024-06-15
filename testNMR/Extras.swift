@@ -139,3 +139,18 @@ for _ in 0..<elementsToAppend {
 
 return modifiedArr
 }
+// Make T1 array T1 Guess and no of points
+func generateArray(_ T1: Double, _ n: Int)->[Double] {
+    let exp_max = 5.1
+    let exp_min = 0.0
+    let no_Expts = n
+    let stepSize = (exp_max - exp_min) / Double(no_Expts - 1)
+    var array: [Double] = []
+    for i in 0..<no_Expts {
+        var value = exp_min + stepSize * Double(i % no_Expts)
+        value = exp(value)/exp(exp_max);
+        value = ceil(value*1000*T1*9/201)
+        array.append(value)
+    }
+    return(array)
+}
