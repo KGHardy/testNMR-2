@@ -35,12 +35,34 @@ class ExperimentDefinition {
         case experiment
         case scan
     }
-    struct ParameterStep {
+    class ParameterStep {
         var name: String
         var index = 0
         var step: Double
         var when: WhenToAction
-        var pause: Double
+        var pause: Double = 0
+        var stepArray: [Double] = []
+        var stepIndex = 0
+        var useArray : Bool = false;
+        
+        init(name: String, index: Int, step: Double, when: WhenToAction, pause: Double) {
+            self.name = name
+            self.index = index
+            self.step = step
+            self.when = when
+            self.stepArray = []
+            self.stepIndex = 0
+            self.useArray = false
+        }
+        init(name: String, index: Int, stepArray: [Double], when: WhenToAction, pause: Double) {
+            self.name = name
+            self.index = index
+            self.step = 0
+            self.when = when
+            self.stepArray = stepArray
+            self.stepIndex = 0
+            self.useArray = true
+        }
     }
     var runCount: Int = 0
     var experimentCount: Int = 0
@@ -74,15 +96,24 @@ class ExperimentDefinition {
             Thread.sleep(forTimeInterval: step.pause)
         }
         if step.index < parameters.count {
+            var stepBy: Double
+            if step.useArray { stepBy = step.stepArray[step.stepIndex] }
+            else             { stepBy = step.step }
             switch step.name {
             case "ncoFreq":
-                parameters[step.index].ncoFreq! += Int(step.step)
+                parameters[step.index].ncoFreq! += Int(stepBy)
             case "pulseLength":
-                parameters[step.index].pulseLength! += Int(step.step)
+                parameters[step.index].pulseLength! += Int(stepBy)
             case "T1":
-                parameters[step.index].tauD! += Int(step.step)
+                parameters[step.index].tauD! += Int(stepBy)
             default:
                 break
+            }
+        }
+        if step.useArray {
+            step.stepIndex += 1
+            if step.stepIndex > step.stepArray.count {
+                step.stepIndex = 0
             }
         }
     }

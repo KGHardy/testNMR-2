@@ -85,7 +85,7 @@ func doFindResonanceExperiment() -> Void {
     definition.postScanUI = showFRFit          // set graph display after each scan
     definition.endRunUI = showFRFitEnd         // set graph display to desired end result
     
-    let step1 = ExperimentDefinition.ParameterStep(name: "ncoFreq", index: 0, step: -1000.0, when: .experiment, pause: gData.delayInSeconds)
+    let step1 = ExperimentDefinition.ParameterStep(name: "ncoFreq", index: 0, stepArray: [-1000.0, -1000, -1000], when: .experiment, pause: gData.delayInSeconds)
     definition.steps.append(step1)
     
     definition.run()

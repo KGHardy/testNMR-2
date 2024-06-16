@@ -12,6 +12,9 @@
 		1F87EADE2A0A5D8D006E603A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F87EADD2A0A5D8D006E603A /* ContentView.swift */; };
 		1F87EAE02A0A5D8E006E603A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F87EADF2A0A5D8E006E603A /* Assets.xcassets */; };
 		1F87EAE32A0A5D8E006E603A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F87EAE22A0A5D8E006E603A /* Preview Assets.xcassets */; };
+		1F906D292C1DB1D800064B5D /* FindPulseLength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F906D262C1DB1D800064B5D /* FindPulseLength.swift */; };
+		1F906D2A2C1DB1D800064B5D /* FindT1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F906D272C1DB1D800064B5D /* FindT1.swift */; };
+		1F906D2B2C1DB1D800064B5D /* FindResonance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F906D282C1DB1D800064B5D /* FindResonance.swift */; };
 		1FB5A8C12AFBC0400010E779 /* filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5A8C02AFBC0400010E779 /* filter.swift */; };
 		1FDAF7292A15083A00AE2BA0 /* ParameterViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAF7282A15083A00AE2BA0 /* ParameterViews.swift */; };
 		1FDAF72B2A1CC3CF00AE2BA0 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDAF72A2A1CC3CF00AE2BA0 /* Settings.swift */; };
@@ -33,6 +36,9 @@
 		1F87EADD2A0A5D8D006E603A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1F87EADF2A0A5D8E006E603A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F87EAE22A0A5D8E006E603A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1F906D262C1DB1D800064B5D /* FindPulseLength.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindPulseLength.swift; sourceTree = "<group>"; };
+		1F906D272C1DB1D800064B5D /* FindT1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindT1.swift; sourceTree = "<group>"; };
+		1F906D282C1DB1D800064B5D /* FindResonance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindResonance.swift; sourceTree = "<group>"; };
 		1FB5A8C02AFBC0400010E779 /* filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = filter.swift; sourceTree = "<group>"; };
 		1FDAF7282A15083A00AE2BA0 /* ParameterViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterViews.swift; sourceTree = "<group>"; };
 		1FDAF72A2A1CC3CF00AE2BA0 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -80,6 +86,9 @@
 				1F553D8C2AB462F5007DA67A /* testNMR.entitlements */,
 				1FFA24512A39CEE10014C88F /* dataAqusiition.swift */,
 				1FB5A8C02AFBC0400010E779 /* filter.swift */,
+				1F906D262C1DB1D800064B5D /* FindPulseLength.swift */,
+				1F906D282C1DB1D800064B5D /* FindResonance.swift */,
+				1F906D272C1DB1D800064B5D /* FindT1.swift */,
 				1FDAF72C2A1E31E700AE2BA0 /* Info.plist */,
 				1F87EADB2A0A5D8D006E603A /* testNMRApp.swift */,
 				1FFA24412A35D11A0014C88F /* NWCode.swift */,
@@ -177,7 +186,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F906D292C1DB1D800064B5D /* FindPulseLength.swift in Sources */,
 				1FFA244D2A39CD260014C88F /* CFFT.swift in Sources */,
+				1F906D2B2C1DB1D800064B5D /* FindResonance.swift in Sources */,
 				1FB5A8C12AFBC0400010E779 /* filter.swift in Sources */,
 				1FFA24402A35CCA80014C88F /* Experiment.swift in Sources */,
 				1F87EADE2A0A5D8D006E603A /* ContentView.swift in Sources */,
@@ -189,6 +200,7 @@
 				1FFA24522A39CEE10014C88F /* dataAqusiition.swift in Sources */,
 				1FFA24432A35D11A0014C88F /* NWCode.swift in Sources */,
 				1FFA24442A35D11A0014C88F /* wpServer.swift in Sources */,
+				1F906D2A2C1DB1D800064B5D /* FindT1.swift in Sources */,
 				1FDAF72B2A1CC3CF00AE2BA0 /* Settings.swift in Sources */,
 				1F87EADC2A0A5D8D006E603A /* testNMRApp.swift in Sources */,
 			);

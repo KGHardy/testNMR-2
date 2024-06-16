@@ -14,8 +14,8 @@
             filePath = "testNMR/Experiment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "callExperiment()"
             landmarkType = "9">
          </BreakpointContent>
@@ -47,9 +47,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "doFindResonanceExperiment()"
-            landmarkType = "9">
+            endingLineNumber = "290">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -63,9 +61,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "288"
-            endingLineNumber = "288"
-            landmarkName = "doFindResonanceExperiment()"
-            landmarkType = "9">
+            endingLineNumber = "288">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -94,8 +90,8 @@
             filePath = "testNMR/Experiment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "callExperiment()"
             landmarkType = "9">
          </BreakpointContent>
