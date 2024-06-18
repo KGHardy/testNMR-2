@@ -112,7 +112,7 @@ class ExperimentDefinition {
         }
         if step.useArray {
             step.stepIndex += 1
-            if step.stepIndex > step.stepArray.count {
+            if step.stepIndex >= step.stepArray.count {
                 step.stepIndex = 0
             }
         }
