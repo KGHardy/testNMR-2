@@ -104,7 +104,8 @@ func doFindPulseLengthExperiment() -> Void {
     definition.endRunUI = showPulseFitEnd         // set graph display to desired end result
   
     
-    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
+   // let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, step: 1000.0, when: .experiment, pause: gData.delayInSeconds)
+    let step1 = ExperimentDefinition.ParameterStep(name: "pulseLength", index: 0, stepArray: [1000.0, 1000.0, 1000.0], when: .experiment, pause: gData.delayInSeconds)
     definition.steps.append(step1)
     
     definition.run()

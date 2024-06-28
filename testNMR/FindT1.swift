@@ -102,12 +102,13 @@ func doFindT1Experiment() -> Void {
     definition.postScanUI = showT1Fit          // set graph display after each scan
     definition.endRunUI = showT1FitEnd         // set graph display to desired end result
   
-    // Temp defintion assumes T1 is 30 ms 10 data points then taustep= 6*30/9 = 20 ms
+    // Temp definition assumes T1 is 50 ms 10 data points then taustep= 6*30/9 = 20 ms
     // uses expeontial growth for T1 experiemnt based on T1Guess so step is not constant
-    // value is sset as tauD phrs(14)  T1Guess 50  TauSteps  14          21          30          45          66          98         144         213 315         467         691        1022        1513        2239
+    // value is set as tauD phrs(14)  T1Guess 50  TauSteps  14          21          30          45          66          98         144         213 315         467         691        1022        1513        2239
     //get T1 array
-    
-    let step1 = ExperimentDefinition.ParameterStep(name: "T1", index: 0, step: 20000000.0, when: .experiment, pause: gData.delayInSeconds)
+    let stepArrayT1 = generateArray(50,12)
+    let step1 = ExperimentDefinition.ParameterStep(name: "T1", index: 0, stepArray:stepArrayT1, when: .experiment, pause: gData.delayInSeconds)
+   
     definition.steps.append(step1)
     
     definition.run()

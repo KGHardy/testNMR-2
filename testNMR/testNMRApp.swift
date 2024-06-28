@@ -70,10 +70,10 @@ struct GlobalData {
     var samples = ["Solvent","Inorganic Dispersion","Organic Dispersion","Polymer Solution","Paramagnetic Solution"]
     
     // index 2
-    var ncoFreq: Int = 12404629
+    var ncoFreq: Int = 12380722
     
     // index 3
-    var pulseLength: Int = 0
+    var pulseLength: Int = 4000
     
     // index 4
     var pulseStep: Int = 0          // not used

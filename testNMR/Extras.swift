@@ -146,11 +146,20 @@ func generateArray(_ T1: Double, _ n: Int)->[Double] {
     let no_Expts = n
     let stepSize = (exp_max - exp_min) / Double(no_Expts - 1)
     var array: [Double] = []
+    var arrayStep: [Double] = []
     for i in 0..<no_Expts {
         var value = exp_min + stepSize * Double(i % no_Expts)
         value = exp(value)/exp(exp_max);
         value = ceil(value*1000*T1*9/201)
         array.append(value)
     }
-    return(array)
+    // make step an increment
+    arrayStep[0] = array[0]
+       for i in 1..<no_Expts {
+               var ir = no_Expts-i
+               print(ir)
+               arrayStep[ir] = array[ir]-array[ir-1]
+           }
+       return(arrayStep)
+  
 }
