@@ -50,7 +50,7 @@ import SwiftUI
  }
  */
 
-struct GlobalData {
+class GlobalData {
 /*
  All redpitaya parameter fields are declared here.
  
@@ -64,7 +64,8 @@ struct GlobalData {
     var experiment: String = "Find Resonance"
     var exptNames = ["FID", "FID", "FID", "", "", ""]
     
-    
+    var defaultParams = NewParameters()
+
     //index 1
     var sample: String = ""
     var samples = ["Solvent","Inorganic Dispersion","Organic Dispersion","Polymer Solution","Paramagnetic Solution"]
@@ -167,9 +168,17 @@ struct GlobalData {
     var windowTime: Int = 1000
     var windowTimeEntered = false
     
-    mutating func initialValues() -> Void {
+    func initialValues() -> Void {
         experiment = experiments[0]
         sample = samples[0]
+    }
+    
+    init() {
+        defaultParams.defaults(exptIndex: 0);
+    }
+    
+    func switchDefaults(exptIndex: Int) {
+        defaultParams.defaults(exptIndex: exptIndex)
     }
     
     func buildParameters(exptIndex: Int) -> NewParameters {
@@ -340,6 +349,94 @@ struct GlobalData {
         case 27:
             if windowTimeEntered {
                 return "\(windowTime)"
+            }
+        default:
+            return ""
+        }
+        return ""
+    }
+    
+    func itemHint(index: Int) -> String {
+        switch index {
+        case 2:
+            if !ncoFreqEntered && defaultParams.ncoFreq != nil {
+                return "\(defaultParams.ncoFreq!)"
+            }
+        case 3:
+            if !pulseLengthEntered && defaultParams.pulseLength != nil {
+                return "\(defaultParams.pulseLength!)"
+            }
+      //case 4:
+          //gData.pulseStep = Int(value)
+        case 5:
+            if !littleDeltaEntered && defaultParams.littleDelta != nil {
+                return "\(defaultParams.littleDelta!)"
+            }
+        case 6:
+            if !bigDeltaEntered && defaultParams.bigDelta != nil {
+                return "\(defaultParams.bigDelta!)"
+            }
+        case 7:
+            if !gradientEntered && defaultParams.gradient != nil {
+                return "\(defaultParams.gradient!)"
+            }
+        case 8:
+            if !rptTimeEntered && defaultParams.rptTime != nil {
+                return "\(defaultParams.rptTime!)"
+            }
+        case 9:
+            if !tauTimeEntered && defaultParams.tauTime != nil {
+                return "\(defaultParams.tauTime!)"
+            }
+        case 10:
+            if !tauIncEntered && defaultParams.tauInc != nil {
+                return "\(defaultParams.tauInc!)"
+            }
+        case 11:
+            if !noDataEntered && defaultParams.noData != nil {
+                return "\(defaultParams.noData!)"
+            }
+        case 13:
+            if !delayInSecondsEntered && defaultParams.delayInSeconds != nil {
+                return "\(defaultParams.delayInSeconds!)"
+            }
+        case 14:
+            if !tauDEntered && defaultParams.tauD != nil {
+                return "\(defaultParams.tauD!)"
+            }
+        case 17:
+            return ""
+        case 18:
+            return ""
+        case 19:
+            return ""
+        case 21:
+            if !t1GuessEntered && defaultParams.t1Guess != nil {
+                return "\(defaultParams.t1Guess!)"
+            }
+        case 22:
+            if !t2GuessEntered && defaultParams.t2Guess != nil {
+                return "\(defaultParams.t2Guess!)"
+            }
+        case 23:
+            if !tauStepEntered && defaultParams.tauStep != nil{
+                return "\(defaultParams.tauStep!)"
+            }
+        case 24:
+            if !noOfDataPointsEntered && defaultParams.noOfDataPoints != nil {
+                return "\(defaultParams.noOfDataPoints!)"
+            }
+        case 25:
+            if !samplingTimeEntered && defaultParams.samplingTime != nil {
+                return "\(defaultParams.samplingTime!)"
+            }
+        case 26:
+            if !filterFrequencyEntered && defaultParams.filterFrequency != nil {
+                return "\(defaultParams.filterFrequency!)"
+            }
+        case 27:
+            if !windowTimeEntered && defaultParams.windowTime != nil {
+                return "\(defaultParams.windowTime!)"
             }
         default:
             return ""

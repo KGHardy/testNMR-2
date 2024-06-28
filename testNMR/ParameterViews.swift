@@ -177,7 +177,7 @@ struct IntegerParameter: View {
             gData.tauTimeEntered = !value.isEmpty
             gData.tauTime = Int(value) ?? 0
         case 10:
-            gData.tauIncEntered
+            gData.tauIncEntered = !value.isEmpty
             gData.tauInc = Int(value) ?? 0
         case 11:
             gData.noDataEntered = !value.isEmpty
@@ -225,7 +225,7 @@ struct IntegerParameter: View {
             Text("\(prompt): ")
                 .padding(.leading, oniPad ? 50 : 5)
             Spacer()
-            TextField("", text: $value)
+            TextField(gData.itemHint(index: index), text: $value)
                 .focused($focus, equals: Focusable.field(id: page * 100 + index))
                 .frame(width: 120)
                 .foregroundColor(.black)
@@ -391,7 +391,7 @@ struct DoubleParameter: View {
             Text("\(prompt): ")
                 .padding(.leading, oniPad ? 50 : 5)
             Spacer()
-            TextField("", text: $value)
+            TextField(gData.itemHint(index: index), text: $value)
                 .focused($focus, equals: Focusable.field(id: page * 100 + index))
                 .frame(width: 120)
                 .foregroundColor(.black)
