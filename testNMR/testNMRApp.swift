@@ -71,43 +71,55 @@ struct GlobalData {
     
     // index 2
     var ncoFreq: Int = 12380722
+    var ncoFreqEntered = true
     
     // index 3
     var pulseLength: Int = 4000
+    var pulseLengthEntered = true
     
     // index 4
     var pulseStep: Int = 0          // not used
+    var pulseStepEntered = false
     
     // index 5
     var littleDelta : Int = 0
+    var littleDeltaEntered = false
     
     // index 6
     var bigDelta: Int = 0
+    var bigDeltaEntered = false
     
     // index 7
     var gradient: Int = 0
+    var gradientEntered = false
     
     // index 8
     var rptTime: Int = 1000
+    var rptTimeEntered = false
     
     // index 9
     var tauTime: Int = 0
+    var tauTimeEntered = false
     
     // index 10
     var tauInc: Int = 0
+    var tauIncEntered = false
     
     // index 11
     var noData: Int = 5000
+    var noDataEntered = false
     
     // index 12:
     var exptSelect: String = ""
+    var exptSelectEntered = false
     
     // index 13
     var delayInSeconds: Double = 1.0
+    var delayInSecondsEntered = false
     
     // index 14
     var tauD: Int = 0
-    
+    var tauDEntered = false
     // index 15
     var progSatArray: [Int] = [-1]
     
@@ -125,27 +137,35 @@ struct GlobalData {
     
     // index 20
     var spectrumMode: String = "FID"
+    var spectrumModeEntered = false
     
     // index 21
     var t1Guess: Int = 100              // ma
+    var t1GuessEntered = false
     
     // index 22
     var t2Guess: Int = 100              // ms
+    var t2GuessEntered = false
     
     // index 23
     var tauStep: Int = 0                // ms
+    var tauStepEntered = false
     
     // index 24
     var noOfDataPoints: Int = 5000
+    var noOfDataPointsEntered = false
     
     // index 25
     var samplingTime: Double = 1e-6     // seconds
+    var samplingTimeEntered = false
     
     // index 26
     var filterFrequency: Int = 200000   // Hz
+    var filterFrequencyEntered = false
     
     // index 27
     var windowTime: Int = 1000
+    var windowTimeEntered = false
     
     mutating func initialValues() -> Void {
         experiment = experiments[0]
@@ -163,34 +183,34 @@ struct GlobalData {
         if allSettings.scanner.hostport != dparams.portNo {
             nparams.portNo = allSettings.scanner.hostport
         }
-        if ncoFreq != dparams.ncoFreq {
+        if ncoFreq != dparams.ncoFreq && ncoFreqEntered {
             nparams.ncoFreq = ncoFreq
         }
-        if pulseLength > 0 && pulseLength != dparams.pulseLength {
+        if pulseLength > 0 && pulseLength != dparams.pulseLength && pulseLengthEntered {
             nparams.pulseLength = pulseLength
         }
-        if dparams.pulseStep != pulseStep {
+        if dparams.pulseStep != pulseStep && pulseStepEntered {
             nparams.pulseStep = pulseStep
         }
-        if dparams.littleDelta != littleDelta {
+        if dparams.littleDelta != littleDelta && littleDeltaEntered {
             nparams.littleDelta = littleDelta
         }
-        if dparams.bigDelta != bigDelta {
+        if dparams.bigDelta != bigDelta && bigDeltaEntered {
             nparams.bigDelta = bigDelta
         }
-        if dparams.gradient != gradient {
+        if dparams.gradient != gradient && gradientEntered {
             nparams.gradient = gradient
         }
-        if dparams.rptTime != rptTime {
+        if dparams.rptTime != rptTime && rptTimeEntered {
             nparams.rptTime = rptTime
         }
-        if dparams.tauTime != tauTime {
+        if dparams.tauTime != tauTime && tauTimeEntered {
             nparams.tauTime = tauTime
         }
-        if dparams.tauInc != tauInc {
+        if dparams.tauInc != tauInc && tauIncEntered {
             nparams.tauInc = tauInc
         }
-        if dparams.noData != noData {
+        if dparams.noData != noData && noDataEntered {
             nparams.noData = noData
         }
         nparams.exptSelect = ""
@@ -200,10 +220,10 @@ struct GlobalData {
                 break
             }
         }
-        if dparams.delayInSeconds != delayInSeconds {
+        if dparams.delayInSeconds != delayInSeconds && delayInSecondsEntered {
             nparams.delayInSeconds = delayInSeconds
         }
-        if dparams.tauD != tauD {
+        if dparams.tauD != tauD && tauDEntered {
             nparams.tauD = tauD
         }
         
@@ -211,32 +231,120 @@ struct GlobalData {
         nparams.userTag = ""
         nparams.version = PARAMETERS_VERSION
         
-        if dparams.spectrumMode != spectrumMode {
+        if dparams.spectrumMode != spectrumMode && spectrumModeEntered {
             nparams.spectrumMode = spectrumMode
         }
-        if dparams.t1Guess != t1Guess {
+        if dparams.t1Guess != t1Guess && t1GuessEntered {
             nparams.t1Guess = t1Guess
         }
-        if dparams.t2Guess != t2Guess {
+        if dparams.t2Guess != t2Guess && t2GuessEntered {
             nparams.t2Guess = t2Guess
         }
-        if dparams.tauStep != tauStep {
+        if dparams.tauStep != tauStep && tauStepEntered {
             nparams.tauStep = tauStep
         }
-        if dparams.noOfDataPoints != noOfDataPoints {
+        if dparams.noOfDataPoints != noOfDataPoints && noOfDataPointsEntered {
             nparams.noOfDataPoints = noOfDataPoints
         }
-        if dparams.samplingTime != samplingTime {
+        if dparams.samplingTime != samplingTime && samplingTimeEntered {
             nparams.samplingTime = samplingTime
         }
-        if dparams.filterFrequency != filterFrequency {
+        if dparams.filterFrequency != filterFrequency && filterFrequencyEntered {
             nparams.filterFrequency = filterFrequency
         }
-        if dparams.windowTime != windowTime {
+        if dparams.windowTime != windowTime && windowTimeEntered {
             nparams.windowTime = windowTime
         }
 
         return nparams
+    }
+    
+    func itemValue(index: Int) -> String {
+        switch index {
+        case 2:
+            if ncoFreqEntered {
+                return "\(gData.ncoFreq)"
+            }
+        case 3:
+            if pulseLengthEntered {
+                return "\(pulseLength)"
+            }
+      //case 4:
+          //gData.pulseStep = Int(value)
+        case 5:
+            if littleDeltaEntered {
+                return "\(littleDelta)"
+            }
+        case 6:
+            if bigDeltaEntered {
+                return "\(bigDelta)"
+            }
+        case 7:
+            if gradientEntered {
+                return "\(gradient)"
+            }
+        case 8:
+            if rptTimeEntered {
+                return "\(rptTime)"
+            }
+        case 9:
+            if tauTimeEntered {
+                return "\(tauTime)"
+            }
+        case 10:
+            if tauIncEntered {
+                return "\(tauInc)"
+            }
+        case 11:
+            if noDataEntered {
+                return "\(noData)"
+            }
+        case 13:
+            if delayInSecondsEntered {
+                return "\(delayInSeconds)"
+            }
+        case 14:
+            if tauDEntered {
+                return "\(tauD)"
+            }
+        case 17:
+            return "\(noOfRuns)"
+        case 18:
+            return "\(noOfExperiments)"
+        case 19:
+            return "\(noOfScans)"
+        case 21:
+            if t1GuessEntered {
+                return "\(t1Guess)"
+            }
+        case 22:
+            if t2GuessEntered {
+                return "\(t2Guess)"
+            }
+        case 23:
+            if tauStepEntered {
+                return "\(tauStep)"
+            }
+        case 24:
+            if noOfDataPointsEntered {
+                return "\(noOfDataPoints)"
+            }
+        case 25:
+            if samplingTimeEntered {
+                return "\(samplingTime)"
+            }
+        case 26:
+            if filterFrequencyEntered {
+                return "\(filterFrequency)"
+            }
+        case 27:
+            if windowTimeEntered {
+                return "\(windowTime)"
+            }
+        default:
+            return ""
+        }
+        return ""
     }
 }
 

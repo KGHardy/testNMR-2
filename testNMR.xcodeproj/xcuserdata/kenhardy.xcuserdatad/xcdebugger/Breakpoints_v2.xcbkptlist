@@ -14,8 +14,8 @@
             filePath = "testNMR/Experiment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "callExperiment()"
             landmarkType = "9">
          </BreakpointContent>
@@ -47,7 +47,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "290"
-            endingLineNumber = "290">
+            endingLineNumber = "290"
+            landmarkName = "doExperiment()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -60,8 +62,8 @@
             filePath = "testNMR/Experiment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288">
+            startingLineNumber = "313"
+            endingLineNumber = "313">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -83,15 +85,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B0A6B95F-5AFC-4B01-8A12-1883124A7F39"
+            uuid = "709677BC-D3F5-4F2B-8DC3-F77ADD1BE6C8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "testNMR/Experiment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "callExperiment()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BD9F8BDB-AD94-4A76-B76E-C4ED389E316A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testNMR/Experiment.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "restoreParameters()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "89F986B9-6830-454C-B584-57A379D9BF0F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testNMR/Experiment.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "callExperiment()"
             landmarkType = "9">
          </BreakpointContent>

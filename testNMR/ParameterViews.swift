@@ -153,28 +153,40 @@ struct IntegerParameter: View {
     func storeValue() {
         switch index {
         case 2:
+            gData.ncoFreqEntered = !value.isEmpty
             gData.ncoFreq = Int(value) ?? 0
         case 3:
+            gData.pulseStepEntered = !value.isEmpty
             gData.pulseLength = Int(value) ?? 0
         case 4:
+            gData.pulseStepEntered = !value.isEmpty
             gData.pulseStep = Int(value) ?? 0
         case 5:
+            gData.littleDeltaEntered = !value.isEmpty
             gData.littleDelta = Int(value) ?? 0
         case 6:
+            gData.bigDeltaEntered = !value.isEmpty
             gData.bigDelta = Int(value) ?? 0
         case 7:
+            gData.gradientEntered = !value.isEmpty
             gData.gradient = Int(value) ?? 0
         case 8:
+            gData.rptTimeEntered = !value.isEmpty
             gData.rptTime = Int(value) ?? 0
         case 9:
+            gData.tauTimeEntered = !value.isEmpty
             gData.tauTime = Int(value) ?? 0
         case 10:
+            gData.tauIncEntered
             gData.tauInc = Int(value) ?? 0
         case 11:
+            gData.noDataEntered = !value.isEmpty
             gData.noData = Int(value) ?? 0
         case 13:
+            gData.delayInSecondsEntered = !value.isEmpty
             gData.delayInSeconds = Double(value) ?? 0
         case 14:
+            gData.tauDEntered = !value.isEmpty
             gData.tauD = Int(value) ?? 0
         case 17:
             gData.noOfRuns = Int(value) ?? 0
@@ -183,18 +195,25 @@ struct IntegerParameter: View {
         case 19:
             gData.noOfScans = Int(value) ?? 0
         case 21:
+            gData.t1GuessEntered = !value.isEmpty
             gData.t1Guess = Int(value) ?? 0
         case 22:
+            gData.t2GuessEntered = !value.isEmpty
             gData.t2Guess = Int(value) ?? 0
         case 23:
+            gData.tauStepEntered = !value.isEmpty
             gData.tauStep = Int(value) ?? 0
         case 24:
+            gData.noOfDataPointsEntered = !value.isEmpty
             gData.noOfDataPoints = Int(value) ?? 0
         case 25:
+            gData.samplingTimeEntered = !value.isEmpty
             gData.samplingTime = Double(value) ?? 0
         case 26:
+            gData.filterFrequencyEntered = !value.isEmpty
             gData.filterFrequency = Int(value) ?? 0
         case 27:
+            gData.windowTimeEntered = !value.isEmpty
             gData.windowTime = Int(value) ?? 0
         default: break
         }
@@ -301,28 +320,39 @@ struct DoubleParameter: View {
     func storeValue() {
         switch index {
         case 2:
+            gData.ncoFreqEntered = !value.isEmpty
             gData.ncoFreq = Int(value) ?? 0
         case 3:
+            gData.pulseLengthEntered = !value.isEmpty
             gData.pulseLength = Int(value) ?? 0
       //case 4:
           //,17gData.pulseStep = Int(value) ?? 0
         case 5:
+            gData.littleDeltaEntered = !value.isEmpty
             gData.littleDelta = Int(value) ?? 0
         case 6:
+            gData.bigDeltaEntered = !value.isEmpty
             gData.bigDelta = Int(value) ?? 0
         case 7:
+            gData.gradientEntered = !value.isEmpty
             gData.gradient = Int(value) ?? 0
         case 8:
+            gData.rptTimeEntered = !value.isEmpty
             gData.rptTime = Int(value) ?? 0
         case 9:
+            gData.tauTimeEntered = !value.isEmpty
             gData.tauTime = Int(value) ?? 0
         case 10:
+            gData.tauIncEntered = !value.isEmpty
             gData.tauInc = Int(value) ?? 0
         case 11:
+            gData.noDataEntered = !value.isEmpty
             gData.noData = Int(value) ?? 0
         case 13:
+            gData.delayInSecondsEntered = !value.isEmpty
             gData.delayInSeconds = Double(value) ?? 0
         case 14:
+            gData.tauDEntered = !value.isEmpty
             gData.tauD = Int(value) ?? 0
         case 17:
             gData.noOfRuns = Int(value) ?? 0
@@ -331,18 +361,25 @@ struct DoubleParameter: View {
         case 19:
             gData.noOfScans = Int(value) ?? 0
         case 21:
+            gData.t1GuessEntered = !value.isEmpty
             gData.t1Guess = Int(value) ?? 0
         case 22:
+            gData.t2GuessEntered = !value.isEmpty
             gData.t2Guess = Int(value) ?? 0
         case 23:
+            gData.tauStepEntered = !value.isEmpty
             gData.tauStep = Int(value) ?? 0
         case 24:
+            gData.noOfDataPointsEntered = !value.isEmpty
             gData.noOfDataPoints = Int(value) ?? 0
         case 25:
+            gData.samplingTimeEntered = !value.isEmpty
             gData.samplingTime = Double(value) ?? 0
         case 26:
+            gData.filterFrequencyEntered = !value.isEmpty
             gData.filterFrequency = Int(value) ?? 0
         case 27:
+            gData.windowTimeEntered = !value.isEmpty
             gData.windowTime = Int(value) ?? 0
         default: break
         }
@@ -587,7 +624,7 @@ struct BigDeltaView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var bigDelta = "\(gData.bigDelta)"
+    @State var bigDelta = gData.itemValue(index: 6)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[6])", page: page, index: 6, value: $bigDelta, minimum: 0, maximum: 0)
@@ -599,7 +636,7 @@ struct GradientView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var gradient = "\(gData.bigDelta)"
+    @State var gradient = gData.itemValue(index: 7)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[7])", page: page, index: 7, value: $gradient, minimum: 0, maximum: 0)
@@ -611,7 +648,7 @@ struct RepeatTimeView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var rptTime = "\(gData.rptTime)"
+    @State var rptTime = gData.itemValue(index: 8)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[8])", page: page, index: 8, value: $rptTime, minimum: 1, maximum: 20)
@@ -655,7 +692,7 @@ struct TauTimeView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var tauTime = "\(gData.tauTime)"
+    @State var tauTime = gData.itemValue(index: 9)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[9])", page: page, index: 9, value: $tauTime, minimum: 0, maximum: 0)
@@ -667,7 +704,7 @@ struct TauIncView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var tauInc = "\(gData.tauInc)"
+    @State var tauInc = gData.itemValue(index: 10)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[10])", page: page, index: 10, value: $tauInc, minimum: 0, maximum: 0)
@@ -679,7 +716,7 @@ struct TauDView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var tauD = "\(gData.tauD)"
+    @State var tauD = gData.itemValue(index: 14)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[14])", page: page, index: 14, value: $tauD, minimum: 0, maximum: 0)
@@ -691,7 +728,7 @@ struct NoDataView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var noData = "\(gData.noData)"
+    @State var noData = gData.itemValue(index: 11)
 
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[11])", page: page, index: 11, value: $noData, minimum: 0, maximum: 0)
@@ -703,7 +740,7 @@ struct DelayInSecondsView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var delayInSeconds = "\(gData.delayInSeconds)"
+    @State var delayInSeconds = gData.itemValue(index: 13)
 
     var body: some View {
         DoubleParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[13])", page: page, index: 13, value: $delayInSeconds, minimum: 0, maximum: 0)
@@ -742,7 +779,7 @@ struct LittleDeltaView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var littleDelta = "\(gData.littleDelta)"
+    @State var littleDelta = gData.itemValue(index: 5)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[5])", page: page, index: 5, value: $littleDelta, minimum: 0, maximum: 10000000)
@@ -754,7 +791,7 @@ struct T1GuessView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var t1Guess = "\(gData.t1Guess)"
+    @State var t1Guess = gData.itemValue(index: 21)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[21])", page: page, index: 21, value: $t1Guess, minimum: 0, maximum: 0)
@@ -766,7 +803,7 @@ struct T2GuessView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var t2Guess = "\(gData.t2Guess)"
+    @State var t2Guess = gData.itemValue(index: 22)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[22])", page: page, index: 22, value: $t2Guess, minimum: 0, maximum: 0)
@@ -778,7 +815,7 @@ struct TauStepView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var tauStep = "\(gData.tauStep)"
+    @State var tauStep = gData.itemValue(index: 23)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[23])", page: page, index: 23, value: $tauStep, minimum: 0, maximum: 0)
@@ -790,7 +827,7 @@ struct NoOfDataPointsView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var noOfDataPoints = "\(gData.noOfDataPoints)"
+    @State var noOfDataPoints = gData.itemValue(index: 24)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[24])", page: page, index: 24, value: $noOfDataPoints, minimum: 0, maximum: 0)
@@ -802,7 +839,7 @@ struct SamplingTimeView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var samplingTime = "\(gData.samplingTime)"
+    @State var samplingTime = gData.itemValue(index: 25)
     
     var body: some View {
         DoubleParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[25])", page: page, index: 25, value: $samplingTime, minimum: 0, maximum: 0)
@@ -814,7 +851,7 @@ struct FilterFrequencyView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var filterFrequency = "\(gData.filterFrequency)"
+    @State var filterFrequency = gData.itemValue(index: 26)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[26])", page: page, index: 26, value: $filterFrequency, minimum: 0, maximum: 0)
@@ -826,7 +863,7 @@ struct WindowTimeView: View {
     @FocusState.Binding var focus: Focusable?
     var page: Int
     
-    @State var windowTime = "\(gData.windowTime)"
+    @State var windowTime = gData.itemValue(index: 27)
     
     var body: some View {
         IntegerParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[27])", page: page, index: 27, value: $windowTime, minimum: 0, maximum: 0)

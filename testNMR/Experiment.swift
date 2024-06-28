@@ -64,11 +64,26 @@ class ExperimentDefinition {
             self.useArray = true
         }
     }
+    
+    func restoreParameters() -> Void {
+        if (runData.run > 0 && runData.experiment == 0 && runData.scan == 0) {
+            parameters.removeAll(keepingCapacity: true)
+            for parameter in copyParameters {
+                parameters.append(parameter)
+            }
+        }
+    }
+    
+    init() {
+            startARun = restoreParameters
+    }
+    
     var runCount: Int = 0
     var experimentCount: Int = 0
     var scanCount: Int = 0
     
     var parameters: [NewParameters] = []
+    var copyParameters: [NewParameters] = []
     var parameterIndex = 0
     var steps: [ParameterStep] = []
     
@@ -78,7 +93,8 @@ class ExperimentDefinition {
     
     var endRun: () -> Void = { return }
     var endRunUI: () -> Void = { return }
-    var startRun: () -> Void = { return }
+    var beginRuns: () -> Void = { return }
+    var startARun: () -> Void = { return }
     
     func doStepPause(step: ParameterStep) -> Void {
         switch step.when {
@@ -174,14 +190,18 @@ class ExperimentDefinition {
             }
 
         }
-        
+
         func callExperiment() -> Void {
             runData.errorMsg = ""
             for run in 0..<runData.runCount {
+                runData.run = run
+                runData.experiment = 0
+                runData.scan = 0
+                startARun()
                 for experiment in 0..<runData.experimentCount {
+                    runData.experiment = experiment
+                    runData.scan = 0
                     for scan in 0..<runData.scanCount {
-                        runData.run = run
-                        runData.experiment = experiment
                         runData.scan = scan
                         self.testStepPause()
                         if self.preScan() {
@@ -236,6 +256,11 @@ class ExperimentDefinition {
         runData.experimentCount = experimentCount
         runData.scan = 0
         runData.scanCount = scanCount
+        
+        copyParameters.removeAll(keepingCapacity: true)
+        for parameter in parameters {
+            copyParameters.append(parameter)
+        }
 
         runData.errorMsg = ""
 
@@ -245,7 +270,7 @@ class ExperimentDefinition {
         runData.results.removeAll(keepingCapacity: true)
                 
         runData.running = true
-        startRun()
+        beginRuns()
         queue.async {
             callExperiment()
         }
