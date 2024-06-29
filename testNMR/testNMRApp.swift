@@ -67,16 +67,16 @@ class GlobalData {
     var defaultParams = NewParameters()
 
     //index 1
-    var sample: String = ""
+    var sample: String = "Solvent"
     var samples = ["Solvent","Inorganic Dispersion","Organic Dispersion","Polymer Solution","Paramagnetic Solution"]
     
     // index 2
-    var ncoFreq: Int = 12380722
-    var ncoFreqEntered = true
+    var ncoFreq: Int = 12404629
+    var ncoFreqEntered = false
     
     // index 3
     var pulseLength: Int = 4000
-    var pulseLengthEntered = true
+    var pulseLengthEntered = false
     
     // index 4
     var pulseStep: Int = 0          // not used
@@ -167,7 +167,7 @@ class GlobalData {
     // index 27
     var windowTime: Int = 1000
     var windowTimeEntered = false
-    
+
     func initialValues() -> Void {
         experiment = experiments[0]
         sample = samples[0]
@@ -176,11 +176,10 @@ class GlobalData {
     init() {
         defaultParams.defaults(exptIndex: 0);
     }
-    
     func switchDefaults(exptIndex: Int) {
         defaultParams.defaults(exptIndex: exptIndex)
     }
-    
+
     func buildParameters(exptIndex: Int) -> NewParameters {
         var dparams = NewParameters()
         dparams.defaults(exptIndex: exptIndex)
@@ -361,10 +360,12 @@ class GlobalData {
         case 2:
             if !ncoFreqEntered && defaultParams.ncoFreq != nil {
                 return "\(defaultParams.ncoFreq!)"
+                //return viewControl.ncoFreqHint
             }
         case 3:
             if !pulseLengthEntered && defaultParams.pulseLength != nil {
                 return "\(defaultParams.pulseLength!)"
+                //return viewControl.pulseLengthHint
             }
       //case 4:
           //gData.pulseStep = Int(value)
@@ -474,10 +475,12 @@ class ViewControl: ObservableObject {
     @Published var viewTag: Int = 0
     
     /* see comments in GlobalData above */
-    @Published var ncoFreq : String = "\(gData.ncoFreq)"
+    @Published var ncoFreq : String = ""
     @Published var disableNcoFreq: Bool = false
-    @Published var pulseLength : String = "\(gData.pulseLength)"
+    @Published var ncoFreqHint : String = ""
+    @Published var pulseLength : String = ""
     @Published var disablePulseLength: Bool = false
+    @Published var pulseLengthHint : String = ""
 
     func viewRefresh() -> Void {
         viewRefreshFlag = !viewRefreshFlag

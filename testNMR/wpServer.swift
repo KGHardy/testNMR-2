@@ -54,7 +54,7 @@ struct NewParameters: Codable {
             if hostName == nil { hostName = redPitayaIp }
             if portNo == nil { portNo = 1001 }
             if ncoFreq == nil { ncoFreq = 12404629 }
-            if pulseLength == nil { pulseLength = exptIndex == 1 ? 1000 : 5000 }
+            pulseLength = exptIndex == 1 ? 1000 : 5000 
             if pulseStep == nil { pulseStep = 0}
             if littleDelta == nil { littleDelta = 0 }
             if bigDelta == nil { bigDelta = 0 }

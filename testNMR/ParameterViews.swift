@@ -109,6 +109,22 @@ func pickerChanged(_ value: String, _ index: Int) -> Void
     switch index {
     case 0:
         gData.experiment = value
+        var ix = 0
+        while ix < gData.experiments.count {
+            if value == gData.experiments[ix] {
+                gData.switchDefaults(exptIndex: ix)
+                break
+            }
+            ix += 1
+        }
+        //gData.ncoFreq = 0 - gData.ncoFreq
+        //gData.ncoFreq = 0 - gData.ncoFreq;
+        if gData.pulseLengthEntered {
+            viewControl.pulseLength = "\(gData.pulseLength)"
+        } else {
+            viewControl.pulseLength = ""
+        }
+        
     case 1:
         gData.sample = value
     default:

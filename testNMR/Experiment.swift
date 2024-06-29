@@ -188,7 +188,6 @@ class ExperimentDefinition {
             catch {
                 return
             }
-
         }
 
         func callExperiment() -> Void {
@@ -285,7 +284,7 @@ var fitsReturned: [[Double]] = [[]]
 func doExperiment() -> Void {
     for ix in 0..<gData.experiments.count {
         if gData.experiment == gData.experiments[ix] {
-            gData.switchDefaults(exptIndex: ix)
+            //gData.switchDefaults(exptIndex: ix)
             switch ix {
             case 0: doFindResonanceExperiment()
             case 1: doFindPulseLengthExperiment()

@@ -69,6 +69,7 @@ func showPulseFit() -> Void {
     //viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
     viewControl.viewResult = pulseScan.count > 3 ? .fit : .raw
     viewControl.pulseLength = "\(gData.pulseLength)"
+    gData.pulseLengthEntered = true
     viewControl.disablePulseLength = true
 }
 //FIXME
@@ -84,10 +85,10 @@ func doFindPulseLengthExperiment() -> Void {
     var nparams = gData.buildParameters(exptIndex: 1)
     nparams.defaults(exptIndex: 1)
     
-    if gData.ncoFreq > 0 {
+    if gData.ncoFreqEntered {
         nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
     }
-    if gData.pulseLength > 0 {
+    if gData.pulseLengthEntered {
         nparams.pulseLength = gData.pulseLength       // ensure pulse length is set in parameters (if it is to be varied)
     }
     let definition = ExperimentDefinition()

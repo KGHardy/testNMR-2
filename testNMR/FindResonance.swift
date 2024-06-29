@@ -59,6 +59,7 @@ func clearFRAnalysis() -> Bool {
 func showFRFit() -> Void {
     viewControl.viewResult = runData.experiment > 1 ? .fit : .raw
     viewControl.ncoFreq = "\(gData.ncoFreq)"
+    gData.ncoFreqEntered = true
     viewControl.disableNcoFreq = true
 }
 
@@ -70,7 +71,9 @@ func showFRFitEnd() -> Void {
 func doFindResonanceExperiment() -> Void {
     var nparams = gData.buildParameters(exptIndex: 0)
     
-    nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    if gData.ncoFreqEntered {
+        nparams.ncoFreq = gData.ncoFreq               // ensure frequency is set in parameters (if it is to be varied)
+    }
     nparams.defaults(exptIndex: 0)
     
     let definition = ExperimentDefinition()
