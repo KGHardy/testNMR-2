@@ -481,6 +481,11 @@ class ViewControl: ObservableObject {
     @Published var pulseLength : String = ""
     @Published var disablePulseLength: Bool = false
     @Published var pulseLengthHint : String = ""
+    
+    @Published var testingBoolean1 = false      // Don't send any data just receive result of running last experiment again
+    @Published var testingBoolean2 = false      // Cmd 16 send json data and message lengths. Receive returned data on same connection
+    @Published var testingBoolean4 = false      // Cmd 17 send opcode data and message lengths. Receive returned data on same connection
+    @Published var testingBoolean8 = false
 
     func viewRefresh() -> Void {
         viewRefreshFlag = !viewRefreshFlag
@@ -493,6 +498,22 @@ class ViewControl: ObservableObject {
     
     func popName() -> ViewNames {
          return viewStack.popLast()!
+    }
+    
+    func debugLevel() -> Int {
+        var level = 0
+        level += testingBoolean1 ? 1 : 0
+        level += testingBoolean2 ? 2 : 0
+        level += testingBoolean4 ? 4 : 0
+        level += testingBoolean8 ? 8 : 0
+        
+        /*
+            1 = no trnr but send cmd 0 (rcvr) to receive data
+            2 = send cmd 16 (trnr) + data lengths + json parameters
+            3 = send cmd 17 (trnr) + data lengths + csv parameters
+            4 = tell cmd 0 (rcvr) not to set enable (also implied by 2)
+        */
+        return level;
     }
 
 }
@@ -509,7 +530,7 @@ struct testNMRApp: App {
     
     init() {
         gData.initialValues()
-        _ = readSettings()
+        _ = readSettings(ignoreFile: false)
     }
 
     var body: some Scene {

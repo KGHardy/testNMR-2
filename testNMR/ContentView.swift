@@ -275,6 +275,26 @@ struct MenuView: View {
                     .padding(.leading, 10)
                 Spacer()
             }
+            HStack {
+                Toggle("Testing Boolean 1", isOn: $vC.testingBoolean1)
+                    .padding(.leading, 10)
+                Spacer()
+            }
+            HStack {
+                Toggle("Testing Boolean 2", isOn: $vC.testingBoolean2)
+                    .padding(.leading, 10)
+                Spacer()
+            }
+            HStack {
+                Toggle("Testing Boolean 4", isOn: $vC.testingBoolean4)
+                    .padding(.leading, 10)
+                Spacer()
+            }
+            HStack {
+                Toggle("Testing Boolean 8", isOn: $vC.testingBoolean8)
+                    .padding(.leading, 10)
+                Spacer()
+            }
             Spacer()
         }
         .frame(width: size.width / 2, height: size.height / 2)

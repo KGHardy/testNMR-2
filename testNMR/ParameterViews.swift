@@ -759,7 +759,7 @@ struct DelayInSecondsView: View {
     @State var delayInSeconds = gData.itemValue(index: 13)
 
     var body: some View {
-        DoubleParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[13])", page: page, index: 13, value: $delayInSeconds, minimum: 0, maximum: 0)
+        DoubleParameter(focus: $focus, prompt: "\(allSettings.paramMap.prompts[13])", page: page, index: 13, value: $delayInSeconds, minimum: 0, maximum: 20)
             .frame(height: vH.slider)
     }
 }

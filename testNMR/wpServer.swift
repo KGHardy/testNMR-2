@@ -1848,20 +1848,39 @@ class NMRServer: NSObject {
 
         }
         
-        func trnr() -> Bool {
+        func parametersToCSV(p: NewParameters) -> String {
+            var header = "exptselect,ncofreq,pulselength,littledelta,bigdelta,gradient"
+            var values = "\"\(p.exptSelect!)\",\(p.ncoFreq!),\(p.pulseLength!),\(p.littleDelta!),\(p.bigDelta!),\(p.gradient!)"
+            header += ",rpttime,tautime,tauinc,nodata,delayinseconds,taud"
+            values += ",\(p.rptTime!),\(p.tauTime!),\(p.tauInc!),\(p.noData!),\(p.delayInSeconds!),\(p.tauD!)"
+            return header + "\n" + values
+        }
+        
+        func trnr(firstStep: Int) -> Bool {
+            var trnCount = 0;
+            var retCount = 0;
+            var paramString = ""
             
             func canSend() -> Void {
                 var nextStep = 0
                 if trnrFailed || cancelled { return }
                 switch sendStep {
                 case 0 :
-                    let cmd: [UInt32] = [1]
-                    let data = convertData(input: cmd)
+                    var data: Data
+                    if viewControl.debugLevel() == 4 {
+                        let cmd: [UInt32] = [18, UInt32(trnCount), 0, UInt32(retCount)]
+                        data = convertData(input: cmd)
+                    } else {
+                        let cmd: [UInt32] = [1]
+                        data = convertData(input: cmd);
+                    }
                     xmtSocket!.send(data: data)
                     nextStep = 1
                     iii = 0
                 case 1:
-                    _ = rcvr()                      // start receiver
+                    if viewControl.debugLevel() != 4 {
+                        _ = rcvr()                      // start receiver
+                    }
                     if exptSelect == "PROG_SAT" {
                         delayM = progSatDelay[iii]
                         if delayM > 0 {
@@ -1896,7 +1915,11 @@ class NMRServer: NSObject {
                     nextStep = 4
                 case 4:
                     signalXmt()
-                    xmtSocket!.stop()
+                    if viewControl.debugLevel() != 4 {
+                        xmtSocket!.stop()
+                    } else {
+                        xmtSocket!.receive()
+                    }
                     nextStep = 4        // canSend should not be called again
                 case 5:
                     if jjj >= noFrames {
@@ -1907,6 +1930,49 @@ class NMRServer: NSObject {
                         jjj += 1
                         nextStep = 5
                     }
+                case 100:
+                    var data: Data
+                    if viewControl.debugLevel() == 2 {
+                        let encoder = JSONEncoder()
+                        encoder.outputFormatting = .prettyPrinted
+                        do {
+                            data = try encoder.encode(p)
+                            paramString = String(data: data, encoding: .utf8)!
+                        }
+                        catch {
+                            return
+                        }
+                        let cmd: [UInt32] = [16, UInt32(paramString.count), 0, UInt32(retCount)]
+                        data = convertData(input: cmd)
+
+                    } else if (viewControl.debugLevel() == 3) {
+                        paramString = parametersToCSV(p: p)
+                        let cmd: [UInt32] = [17, UInt32(paramString.count), 0, UInt32(retCount)]
+                        data = convertData(input: cmd)
+                    } else {
+                        let cmd: [UInt32] = [0]
+                        data = convertData(input: cmd)
+                    }
+                    xmtSocket!.send(data: data)
+                    nextStep = 101
+                case 101:
+                    if ![2,3].contains(viewControl.debugLevel()) {
+                        _ = rcvr()
+                    }
+                    let bytes = paramString.data(using: .utf8)
+                    xmtSocket!.send(data: bytes!)
+                    nextStep = 102
+                case 102:
+                    if ![2,3].contains(viewControl.debugLevel()) {
+                        signalXmt();
+                        xmtSocket!.stop()
+                    } else {
+                        xmtSocket!.receive()
+                    }
+                    nextStep = 103
+                case 103:
+                    // do nothing
+                    nextStep = 103
                 default:
                     break
                 }
@@ -1915,7 +1981,34 @@ class NMRServer: NSObject {
             
             
             func didReceive(_ data: Data, _ isComplete: Bool) -> Void {
-            // do nothing
+            // do nothing if using two connections
+                if [2,3,4].contains(viewControl.debugLevel()) {
+                    rcvba = [UInt8](data)
+                    buildIntegers()
+                    rcvCount += rcvba!.count
+                    if trnrFailed || cancelled {
+                        xmtSocket!.stop()
+                        signalXmt()
+                        signalRcv()
+                    } else {
+                        if newResult.datapoints.count >= expectedNodeCount {
+                        //if newResult.datapoints.count >= expectedNodeCount ||
+                        //    ((endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / UInt64(1e9)) > UInt64(delayInSeconds * 1000000000) {
+                            xmtSocket!.stop()
+                            signalXmt()
+                            signalRcv()
+                        } else {
+                            if isComplete {
+                                xmtSocket!.stop()
+                                signalXmt()
+                                signalRcv()
+                            } else {
+                                xmtSocket!.receive()
+                            }
+                        }
+                    }
+
+                }
             }
             
             func didFail() -> Void {
@@ -1925,8 +2018,38 @@ class NMRServer: NSObject {
                 retResult = false
                 retError = xmtSocket!.retError
             }
+            
+            trnCount = 0;
+            if exptSelect == "PROG_SAT" {
+                var iii = 0;
+                delayM = progSatDelay[iii]
+                while delayM != -1 {
+                    iii += 1
+                    trnCount += bufTrnr.count * MemoryLayout.size(ofValue: bufTrnr[0])
+                    trnCount += bufDelay.count * MemoryLayout.size(ofValue: bufDelay[0])
+                    if iii < progSatDelay.count {
+                        delayM = progSatDelay[iii]
+                    } else {
+                        delayM = -1
+                    }
+                }
+            } else {
+                trnCount += bufTrnr.count * MemoryLayout.size(ofValue: bufTrnr[0])
+                if exptSelect == "CPMGX" || exptSelect == "CPMGY" {
+                    noFrames = noEchoes / 32
+                    trnCount += bufCPMG.count  * MemoryLayout.size(ofValue: bufCPMG[0]) * noFrames
+                }
+                trnCount += bufDelay.count * MemoryLayout.size(ofValue: bufDelay[0])
+            }
+            let i16: Int16 = 0
+            retCount = (noData + (BUFSIZE - 1)) / BUFSIZE
+            //retCount *= size_t(i16) * BUFSIZE
+            retCount *= MemoryLayout.size(ofValue: i16) * BUFSIZE
 
-            sendStep = 0
+            print("trnCount ", trnCount)
+            print("retCount ", retCount)
+
+            sendStep = firstStep
             iii = 0
             xmtSocket = TcpSocket(hostName: hostName,
                                   hostPort: portNo,
@@ -1939,17 +2062,55 @@ class NMRServer: NSObject {
             return true
         }
         
+        var rcvCount = 0;
+        var rcvba: [UInt8]? = []
+        var rcvData: [Int16] = []
+        var byteIndex = 0
+        var currentInt: UInt16 = 0
+        
+        var endTime = DispatchTime.now()
+        var startTime = DispatchTime.now()
+        
+        let expectedNodeCount = (noData + (BUFSIZE - 1)) / BUFSIZE
+
+        func buildIntegers() -> Void {
+            var arrayIndex = 0
+            while arrayIndex < rcvba!.count {
+                switch byteIndex {
+                case 0:
+                    currentInt  = UInt16(rcvba![arrayIndex])
+                    byteIndex = 1
+                case 1:
+                    currentInt |= UInt16(rcvba![arrayIndex]) << 8
+                    rcvData.append(Int16(bitPattern: currentInt))
+                    byteIndex = 0
+                    rcvIx += 1
+                    if rcvIx >= BUFSIZE {
+                        newResult.datapoints.append(rcvData)
+                        endTime = DispatchTime.now()
+                        rcvData.removeAll(keepingCapacity: true)
+                        rcvIx = 0
+                    }
+                    currentInt = 0
+                    byteIndex = 0
+                default:
+                    break
+                }
+                arrayIndex += 1
+            }
+        }
+
         func rcvr() -> Bool {
             let Cmd: [UInt32] = [0]
             
-            var rcvcount = 0
+            //var rcvCount = 0
             var sendStep = 0
             
-            var rcvba: [UInt8]? = []
-            var rcvData: [Int16] = []
+            //var rcvba: [UInt8]? = []
+            //var rcvData: [Int16] = []
             
-            var byteIndex = 0
-            var currentInt: UInt16 = 0
+            //var byteIndex = 0
+            //var currentInt: UInt16 = 0
             
             var data: Data!
             
@@ -1977,7 +2138,7 @@ class NMRServer: NSObject {
             func didReceive(data: Data, isComplete: Bool) {
                 rcvba = [UInt8](data)
                 buildIntegers()
-                rcvcount += rcvba!.count
+                rcvCount += rcvba!.count
                 if trnrFailed || cancelled {
                     rcvSocket!.stop()
                     signalRcv()
@@ -2000,37 +2161,9 @@ class NMRServer: NSObject {
             rcvIx = 0
             newResult.datapoints.removeAll(keepingCapacity: true)
 
-            let expectedNodeCount = (noData + (BUFSIZE - 1)) / BUFSIZE
-            let startTime = DispatchTime.now()
-            var endTime = startTime
+            startTime = DispatchTime.now()
+            endTime = startTime
             
-            func buildIntegers() -> Void {
-                var arrayIndex = 0
-                while arrayIndex < rcvba!.count {
-                    switch byteIndex {
-                    case 0:
-                        currentInt  = UInt16(rcvba![arrayIndex])
-                        byteIndex = 1
-                    case 1:
-                        currentInt |= UInt16(rcvba![arrayIndex]) << 8
-                        rcvData.append(Int16(bitPattern: currentInt))
-                        byteIndex = 0
-                        rcvIx += 1
-                        if rcvIx >= BUFSIZE {
-                            newResult.datapoints.append(rcvData)
-                            endTime = DispatchTime.now()
-                            rcvData.removeAll(keepingCapacity: true)
-                            rcvIx = 0
-                        }
-                        currentInt = 0
-                        byteIndex = 0
-                    default:
-                        break
-                    }
-                    arrayIndex += 1
-                }
-            }
-
 //            let deadline = Date().advanced(by: 0.1) // requires IOS 13
 //            let deadline = Date() + 2.0
 //            Thread.sleep(until: deadline)
@@ -2045,7 +2178,7 @@ class NMRServer: NSObject {
             rcvSocket!.queue = DispatchQueue(label: "Receive Queue", qos: .default)
             rcvSocket!.tag = "rcv"
             rcvSocket!.start()
-            return rcvcount > 0
+            return rcvCount > 0
         }
         
         while rcvSCount > 0 {
@@ -2056,15 +2189,24 @@ class NMRServer: NSObject {
         }
 
         trnrFailed = false
-
-        if !trnr() {
-            retval = false
-        }
-    
-        waitXmt()
-        if cancelled {
-            retval = false
-            return retval
+        if viewControl.debugLevel() == 1 {  // don't send any data just ask rp to re-process last scan
+            rcvr()
+        } else {
+            if [2,3].contains(viewControl.debugLevel()) { // send cmd 16/17 (trnr) + data length + json parameters
+                if !trnr(firstStep: 100) {
+                    retval = false
+                }
+            } else {
+                if !trnr(firstStep: 0) {
+                    retval = false
+                }
+            }
+            
+            waitXmt()
+            if cancelled {
+                retval = false
+                return retval
+            }
         }
         if !trnrFailed { waitRcv() }
         
