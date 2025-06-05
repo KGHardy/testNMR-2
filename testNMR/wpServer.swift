@@ -1934,7 +1934,7 @@ class NMRServer: NSObject {
                     var data: Data
                     if viewControl.debugLevel() == 2 {
                         let encoder = JSONEncoder()
-                        encoder.outputFormatting = .prettyPrinted
+                        encoder.outputFormatting = .sortedKeys
                         do {
                             data = try encoder.encode(p)
                             paramString = String(data: data, encoding: .utf8)!
@@ -2208,7 +2208,11 @@ class NMRServer: NSObject {
                 return retval
             }
         }
-        if !trnrFailed { waitRcv() }
+        if trnrFailed {
+            retval = false
+        } else {
+            waitRcv()
+        }
         
         return retval
     }

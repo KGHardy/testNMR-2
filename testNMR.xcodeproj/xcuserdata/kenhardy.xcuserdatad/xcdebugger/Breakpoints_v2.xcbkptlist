@@ -126,8 +126,8 @@
             filePath = "testNMR/wpServer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2218"
-            endingLineNumber = "2218"
+            startingLineNumber = "2222"
+            endingLineNumber = "2222"
             landmarkName = "experiment(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "testNMR/wpServer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2232"
-            endingLineNumber = "2232"
+            startingLineNumber = "2236"
+            endingLineNumber = "2236"
             landmarkName = "experiment(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -194,6 +194,22 @@
             endingLineNumber = "2191"
             landmarkName = "RPInterface(params:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "15C37F08-C7B7-45B6-AC0C-F57D7A5C095B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "testNMR/wpServer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2054"
+            endingLineNumber = "2054"
+            landmarkName = "trnr(firstStep:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

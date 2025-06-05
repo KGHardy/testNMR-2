@@ -210,7 +210,7 @@ class ExperimentDefinition {
                                 break
                             }
                             runData.nmrResult = nmr.experiment(self.parameters[self.parameterIndex])
-                            if nmr.newResult.count() > 0 {
+                            if runData.nmrResult.count > 0 {
                                 updateResults()
                                 if self.postScan() {
                                     DispatchQueue.main.async {
