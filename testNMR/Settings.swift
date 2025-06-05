@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let settingsVersion = "1.0"
+
 enum Focusable: Hashable {
     case none
     case field(id: Int)
@@ -191,6 +193,7 @@ struct ParameterMap: Codable {
 }
 
 struct AllSettings: Codable {
+    var version: String?
     var paramMap = ParameterMap()
     var scanner = ScannerSettings()
 }
@@ -635,15 +638,23 @@ func readFromFile(fileName: String) -> String {
     }
 }
 
-func readSettings() -> Bool {
+func readSettings(ignoreFile: Bool) -> Bool {
+    
+    if ignoreFile {
+        return false
+    }
     do {
         let settingsString = readFromFile(fileName: "testNMR.json")
         if settingsString.count > 0 {
             let decoder = JSONDecoder()
-            allSettings = try decoder.decode(AllSettings.self, from: settingsString.data(using: .utf8)!)
-            redPitayaIp = allSettings.scanner.hostname
-            paramPos.build(paramMap: allSettings.paramMap)
-            return true
+            let testSettings = try decoder.decode(AllSettings.self, from: settingsString.data(using: .utf8)!)
+            let version = testSettings.version ?? "0.0"
+            if version == settingsVersion {
+                allSettings = try decoder.decode(AllSettings.self, from: settingsString.data(using: .utf8)!)
+                redPitayaIp = allSettings.scanner.hostname
+                paramPos.build(paramMap: allSettings.paramMap)
+                return true
+            }
         }
         return false
     } catch {
@@ -656,6 +667,7 @@ func saveSettings() -> Void {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     do {
+        allSettings.version = settingsVersion
         let data = try encoder.encode(allSettings)
         let settingsString = String(data: data, encoding: .utf8)!
         saveToFile(string: settingsString, filename: "testNMR.json")
